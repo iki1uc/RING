@@ -1,37 +1,647 @@
 <!DOCTYPE html>
 <html lang="de">
 <head>
-<meta charset="UTF-8">
-<title>RESPO‑AXI‑LINK.NET</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔗 REAL‑CONNECT · 2 Rechner · Alle Optionen · Live‑Erfahrung</title>
 
-<script type="module">
-import { axiLink } from "./axi-link.js";
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #0a0a12;
+            color: #e6f6ff;
+            font-family: 'Consolas', monospace;
+            min-height: 100vh;
+            padding: 16px;
+            background-image: radial-gradient(ellipse at 30% 40%, #0a0a20 0%, #000 100%);
+        }
 
-async function buildButtons() {
-    const lage = await fetch("axi-lage.json").then(r => r.json());
-    const container = document.getElementById("axis-buttons");
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
 
-    Object.keys(lage).forEach(axis => {
-        const btn = document.createElement("button");
-        btn.innerText = axis;
-        btn.onclick = async () => {
-            const info = await axiLink(axis);
-            window.location.href = info.route + "?axis=" + axis;
-        };
-        container.appendChild(btn);
-    });
-}
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #ffd700;
+            padding-bottom: 12px;
+            margin-bottom: 16px;
+        }
+        .header h1 {
+            font-size: 28px;
+            color: #ffd700;
+            letter-spacing: 6px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
+        }
+        .header .sub {
+            color: #445555;
+            font-size: 11px;
+            letter-spacing: 3px;
+        }
+        .header .sub span { color: #88ddbb; }
 
-window.addEventListener("DOMContentLoaded", buildButtons);
-</script>
+        .grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 16px;
+        }
+        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
 
+        .panel {
+            background: rgba(10,10,20,0.4);
+            border: 1px solid rgba(255,255,255,0.02);
+            border-radius: 16px;
+            padding: 12px;
+            backdrop-filter: blur(10px);
+        }
+        .panel h2 {
+            color: #ffd700;
+            font-size: 14px;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+            padding-bottom: 6px;
+            margin-bottom: 8px;
+        }
+
+        .rechner-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+        .rechner-card {
+            background: #0e0e1a;
+            border: 1px solid #1a1a2a;
+            border-radius: 8px;
+            padding: 10px;
+            text-align: center;
+        }
+        .rechner-card .name {
+            color: #ffd700;
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .rechner-card .status {
+            font-size: 12px;
+            margin: 4px 0;
+        }
+        .rechner-card .status.online { color: #4f4; }
+        .rechner-card .status.offline { color: #f44; }
+        .rechner-card .status.sync { color: #4fc3f7; }
+        .rechner-card .values {
+            font-size: 10px;
+            color: #666;
+            margin-top: 4px;
+        }
+        .rechner-card .values span { color: #88ddbb; }
+
+        .connect-bar {
+            background: #0e0e1a;
+            border: 1px solid #1a1a2a;
+            border-radius: 6px;
+            padding: 8px 12px;
+            margin: 6px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            color: #666;
+        }
+        .connect-bar .wert {
+            color: #00ffff;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .connect-bar .label { color: #ffd700; }
+
+        .controls {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin: 6px 0;
+        }
+        button {
+            background: #111;
+            color: #9cf;
+            border: 1px solid #333;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-family: inherit;
+            font-size: 10px;
+            transition: all 0.2s;
+        }
+        button:hover {
+            background: #1a1a2a;
+            border-color: #ffd700;
+        }
+        button.primary {
+            border-color: #ffd700;
+            color: #ffd700;
+        }
+        button.primary:hover {
+            background: #ffd700;
+            color: #000;
+        }
+        button.connect {
+            border-color: #00ffff;
+            color: #00ffff;
+        }
+        button.connect:hover {
+            background: #00ffff;
+            color: #000;
+        }
+        button.sync {
+            border-color: #4fc3f7;
+            color: #4fc3f7;
+        }
+        button.sync:hover {
+            background: #4fc3f7;
+            color: #000;
+        }
+        button.danger {
+            border-color: #f44;
+            color: #f44;
+        }
+        button.danger:hover {
+            background: #f44;
+            color: #000;
+        }
+
+        .log {
+            background: rgba(0,0,0,0.3);
+            border-radius: 8px;
+            padding: 8px;
+            font-size: 10px;
+            color: #88ddbb;
+            max-height: 120px;
+            overflow-y: auto;
+            font-family: monospace;
+            line-height: 1.4;
+            border: 1px solid rgba(255,255,255,0.02);
+            margin-top: 6px;
+        }
+        .log .entry { padding: 1px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
+        .log .time { color: #445555; }
+        .log .ok { color: #4f4; }
+        .log .warn { color: #ffaa00; }
+        .log .connect { color: #00ffff; }
+        .log .sync { color: #4fc3f7; }
+        .log .error { color: #f44; }
+        .log .data { color: #ffd700; }
+
+        .canvas-wrap {
+            background: rgba(10,10,20,0.4);
+            border: 1px solid rgba(255,255,255,0.02);
+            border-radius: 16px;
+            padding: 12px;
+        }
+        #connectCanvas {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/10;
+            background: #0a0a12;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.02);
+            display: block;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 16px;
+            padding: 10px;
+            color: #222;
+            font-size: 8px;
+            letter-spacing: 2px;
+            border-top: 1px solid rgba(255,255,255,0.01);
+        }
+        .footer span { color: #ffd700; }
+    </style>
 </head>
 <body>
 
-<h1>RESPO‑AXI‑LINK.NET</h1>
-<p>Dynamischer Achsen‑Dispatcher</p>
+<div class="container">
 
-<div id="axis-buttons"></div>
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <h1>🔗 REAL‑CONNECT · 2 RECHNER · ALLE OPTIONEN</h1>
+        <div class="sub">Ping · Sync · Data‑Flow · RESPO · AXIOM · RAWATOR · HOLO · BOOT · <span>wieimmer4u</span></div>
+    </div>
+
+    <div class="grid">
+
+        <!-- ===== LINKER BEREICH: CANVAS ===== -->
+        <div class="canvas-wrap">
+            <h2>🌀 NETZWERK‑VISUALISIERUNG · 2 RECHNER</h2>
+            <canvas id="connectCanvas"></canvas>
+            <div style="display:flex;gap:12px;margin-top:6px;font-size:9px;color:#445555;flex-wrap:wrap;">
+                <span>🟩 Rechner 1 (online)</span>
+                <span>🟦 Rechner 2 (online)</span>
+                <span>🟡 Verbindung aktiv</span>
+                <span style="color:#ffd700;">⚡ Datenfluss</span>
+            </div>
+        </div>
+
+        <!-- ===== RECHTE BEREICH: PANEL ===== -->
+        <div class="panel">
+            <h2>⚙️ CONNECT‑CENTER · 2 RECHNER</h2>
+
+            <!-- 2 Rechner -->
+            <div class="rechner-grid">
+                <div class="rechner-card" id="rechner1">
+                    <div class="name">🟩 RECHNER 1</div>
+                    <div class="status online" id="status1">● online</div>
+                    <div class="values">
+                        TMP: <span id="r1-tmp">1.00</span> |
+                        RA: <span id="r1-ra">1.00</span> |
+                        RE: <span id="r1-re">1.00</span>
+                    </div>
+                </div>
+                <div class="rechner-card" id="rechner2">
+                    <div class="name">🟦 RECHNER 2</div>
+                    <div class="status online" id="status2">● online</div>
+                    <div class="values">
+                        TMP: <span id="r2-tmp">1.00</span> |
+                        RA: <span id="r2-ra">1.00</span> |
+                        RE: <span id="r2-re">1.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Connect-Bar -->
+            <div class="connect-bar">
+                <span class="label">🔗 CONNECTION</span>
+                <span class="wert" id="connect-status">● AKTIV</span>
+                <span style="color:#445555;font-size:9px;" id="ping-value">Ping: 0ms</span>
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <button class="primary" id="btn-connect">🔗 CONNECT</button>
+                <button class="sync" id="btn-sync">🔄 SYNC</button>
+                <button class="connect" id="btn-ping">📡 PING</button>
+                <button id="btn-data">📊 DATA‑FLOW</button>
+                <button class="danger" id="btn-reset">⟲ RESET</button>
+            </div>
+
+            <!-- Log -->
+            <div class="log" id="log">
+                <div class="entry"><span class="time">[INIT]</span> <span class="ok">REAL‑CONNECT · 2 Rechner · bereit</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer">
+        <span>🔗</span> REAL‑CONNECT · 2 Rechner · Alle Optionen · Live‑Erfahrung · <span>wieimmer4u</span>
+    </div>
+
+</div>
+
+<!-- ============================================================ -->
+<!-- SCRIPT – DAS KOMPLETTE CONNECT‑SYSTEM                        -->
+<!-- ============================================================ -->
+<script>
+// ================================================================
+// 1. RECHNER 1 & 2 (TRI‑basiert)
+// ================================================================
+
+const R1 = {
+    id: 1,
+    name: "Rechner 1",
+    tmp: 1,
+    ra: 1,
+    re: 1,
+    role: "Sender",
+    online: true,
+    ping: 0
+};
+
+const R2 = {
+    id: 2,
+    name: "Rechner 2",
+    tmp: 1,
+    ra: 1,
+    re: 1,
+    role: "Empfänger",
+    online: true,
+    ping: 0
+};
+
+// ================================================================
+// 2. STATE
+// ================================================================
+
+let connected = false;
+let cycle = 0;
+let logEntries = [];
+const MAX_LOG = 30;
+let autoTimer = null;
+let running = false;
+
+// ================================================================
+// 3. LOG
+// ================================================================
+
+function log(msg, type = 'ok') {
+    const logDiv = document.getElementById('log');
+    const entry = document.createElement('div');
+    entry.className = 'entry';
+    const time = new Date().toLocaleTimeString();
+    const cls = type === 'ok' ? 'ok' : type === 'connect' ? 'connect' : type === 'sync' ? 'sync' : type === 'error' ? 'error' : type === 'data' ? 'data' : 'warn';
+    entry.innerHTML = `<span class="time">[${time}]</span> <span class="${cls}">${msg}</span>`;
+    logDiv.appendChild(entry);
+    logDiv.scrollTop = logDiv.scrollHeight;
+    while (logDiv.children.length > MAX_LOG) logDiv.removeChild(logDiv.firstChild);
+}
+
+// ================================================================
+// 4. UPDATE UI
+// ================================================================
+
+function updateUI() {
+    document.getElementById('r1-tmp').textContent = R1.tmp.toFixed(2);
+    document.getElementById('r1-ra').textContent = R1.ra.toFixed(2);
+    document.getElementById('r1-re').textContent = R1.re.toFixed(2);
+    document.getElementById('r2-tmp').textContent = R2.tmp.toFixed(2);
+    document.getElementById('r2-ra').textContent = R2.ra.toFixed(2);
+    document.getElementById('r2-re').textContent = R2.re.toFixed(2);
+
+    document.getElementById('status1').textContent = R1.online ? '● online' : '● offline';
+    document.getElementById('status1').className = 'status ' + (R1.online ? 'online' : 'offline');
+    document.getElementById('status2').textContent = R2.online ? '● online' : '● offline';
+    document.getElementById('status2').className = 'status ' + (R2.online ? 'online' : 'offline');
+
+    document.getElementById('connect-status').textContent = connected ? '● AKTIV' : '○ INAKTIV';
+    document.getElementById('connect-status').style.color = connected ? '#4f4' : '#f44';
+
+    drawVisualization();
+}
+
+// ================================================================
+// 5. CONNECT-FUNKTIONEN
+// ================================================================
+
+// ─── CONNECT ──────────────────────────────────────────────────
+function doConnect() {
+    connected = !connected;
+    if (connected) {
+        R1.online = true;
+        R2.online = true;
+        log('🔗 Verbindung hergestellt', 'connect');
+        document.getElementById('connect-status').textContent = '● AKTIV';
+        document.getElementById('connect-status').style.color = '#4f4';
+    } else {
+        log('🔗 Verbindung getrennt', 'warn');
+        document.getElementById('connect-status').textContent = '○ INAKTIV';
+        document.getElementById('connect-status').style.color = '#f44';
+    }
+    updateUI();
+}
+
+// ─── SYNC ─────────────────────────────────────────────────────
+function doSync() {
+    if (!connected) { log('⚠️ Keine Verbindung – Sync nicht möglich', 'warn'); return; }
+
+    // Daten synchronisieren
+    const avgTmp = (R1.tmp + R2.tmp) / 2;
+    const avgRa = (R1.ra + R2.ra) / 2;
+    const avgRe = (R1.re + R2.re) / 2;
+
+    R1.tmp = avgTmp;
+    R1.ra = avgRa;
+    R1.re = avgRe;
+    R2.tmp = avgTmp;
+    R2.ra = avgRa;
+    R2.re = avgRe;
+
+    log('🔄 Sync durchgeführt – Werte angeglichen', 'sync');
+    updateUI();
+}
+
+// ─── PING ─────────────────────────────────────────────────────
+function doPing() {
+    if (!connected) { log('⚠️ Keine Verbindung – Ping nicht möglich', 'warn'); return; }
+
+    const ping = Math.floor(Math.random() * 20 + 5);
+    R1.ping = ping;
+    R2.ping = ping;
+    document.getElementById('ping-value').textContent = `Ping: ${ping}ms`;
+    log(`📡 Ping: ${ping}ms`, 'connect');
+}
+
+// ─── DATA‑FLOW ──────────────────────────────────────────────
+function doDataFlow() {
+    if (!connected) { log('⚠️ Keine Verbindung – Data‑Flow nicht möglich', 'warn'); return; }
+
+    // Daten fließen von R1 zu R2
+    R2.tmp = R1.tmp * (0.95 + Math.random() * 0.1);
+    R2.ra = R1.ra * (0.95 + Math.random() * 0.1);
+    R2.re = R1.re * (0.95 + Math.random() * 0.1);
+
+    // R1 bekommt leichten Boost
+    R1.tmp += (Math.random() - 0.5) * 0.05;
+    R1.ra += (Math.random() - 0.5) * 0.05;
+    R1.re += (Math.random() - 0.5) * 0.05;
+
+    // Grenzen
+    [R1, R2].forEach(r => {
+        r.tmp = Math.min(1.8, Math.max(0.4, r.tmp));
+        r.ra = Math.min(1.8, Math.max(0.4, r.ra));
+        r.re = Math.min(1.8, Math.max(0.4, r.re));
+    });
+
+    log('📊 Data‑Flow: R1 → R2', 'data');
+    updateUI();
+}
+
+// ─── AUTO ─────────────────────────────────────────────────────
+function toggleAuto() {
+    running = !running;
+    if (running) {
+        autoTimer = setInterval(() => {
+            if (connected) {
+                doPing();
+                doDataFlow();
+            }
+        }, 3000);
+        document.getElementById('btn-auto').textContent = '⏸ PAUSE';
+        log('▶ AUTO gestartet', 'ok');
+    } else {
+        clearInterval(autoTimer);
+        autoTimer = null;
+        document.getElementById('btn-auto').textContent = '▶ AUTO';
+        log('⏸ AUTO pausiert', 'warn');
+    }
+}
+
+// ─── RESET ────────────────────────────────────────────────────
+function doReset() {
+    R1.tmp = 1;
+    R1.ra = 1;
+    R1.re = 1;
+    R2.tmp = 1;
+    R2.ra = 1;
+    R2.re = 1;
+    R1.ping = 0;
+    R2.ping = 0;
+    connected = false;
+    document.getElementById('ping-value').textContent = 'Ping: 0ms';
+    document.getElementById('connect-status').textContent = '○ INAKTIV';
+    document.getElementById('connect-status').style.color = '#f44';
+
+    if (running) {
+        clearInterval(autoTimer);
+        autoTimer = null;
+        running = false;
+        document.getElementById('btn-auto').textContent = '▶ AUTO';
+    }
+
+    log('⟲ RESET – System zurückgesetzt', 'warn');
+    updateUI();
+}
+
+// ================================================================
+// 6. VISUALISIERUNG (Canvas)
+// ================================================================
+
+function drawVisualization() {
+    const canvas = document.getElementById('connectCanvas');
+    const rect = canvas.parentElement.getBoundingClientRect();
+    const w = rect.width - 24 || 800;
+    const h = w * 0.625 || 500;
+    canvas.width = w;
+    canvas.height = h;
+
+    const ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, w, h);
+
+    const cx = w / 2;
+    const cy = h / 2;
+    const radius = Math.min(w, h) * 0.3;
+
+    // R1 Position (links)
+    const r1x = cx - radius * 0.5;
+    const r1y = cy;
+
+    // R2 Position (rechts)
+    const r2x = cx + radius * 0.5;
+    const r2y = cy;
+
+    // Verbindungslinie
+    if (connected) {
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = 'rgba(0,255,255,0.2)';
+        ctx.strokeStyle = '#00ffff';
+        ctx.lineWidth = 3;
+        ctx.setLineDash([6, 8]);
+        ctx.beginPath();
+        ctx.moveTo(r1x, r1y);
+        const pulse = Math.sin(Date.now() / 500) * 4;
+        ctx.quadraticCurveTo(cx, cy - 30 + pulse, r2x, r2y);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.shadowBlur = 0;
+
+        // Datenfluss-Partikel
+        for (let i = 0; i < 5; i++) {
+            const t = (i / 5 + Date.now() / 2000) % 1;
+            const x = r1x + (r2x - r1x) * t;
+            const y = r1y + (r2y - r1y) * t - 30 * Math.sin(t * Math.PI) + pulse * Math.sin(t * Math.PI);
+            ctx.beginPath();
+            ctx.arc(x, y, 3 + Math.sin(Date.now() / 300 + i) * 1, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(255,215,0,${0.3 + Math.sin(Date.now() / 400 + i) * 0.2})`;
+            ctx.fill();
+        }
+    }
+
+    // R1 Node
+    ctx.shadowBlur = 30;
+    ctx.shadowColor = R1.online ? 'rgba(0,255,136,0.2)' : 'rgba(255,68,68,0.2)';
+    const r1size = 35 + R1.tmp * 10;
+    ctx.beginPath();
+    ctx.arc(r1x, r1y, r1size, 0, Math.PI * 2);
+    ctx.fillStyle = R1.online ? 'rgba(0,255,136,0.3)' : 'rgba(255,68,68,0.3)';
+    ctx.fill();
+    ctx.strokeStyle = R1.online ? '#4f4' : '#f44';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 14px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('R1', r1x, r1y - 4);
+    ctx.font = '9px Arial';
+    ctx.fillText(`TMP: ${R1.tmp.toFixed(1)}`, r1x, r1y + 20);
+
+    // R2 Node
+    ctx.shadowBlur = 30;
+    ctx.shadowColor = R2.online ? 'rgba(0,136,255,0.2)' : 'rgba(255,68,68,0.2)';
+    const r2size = 35 + R2.tmp * 10;
+    ctx.beginPath();
+    ctx.arc(r2x, r2y, r2size, 0, Math.PI * 2);
+    ctx.fillStyle = R2.online ? 'rgba(0,136,255,0.3)' : 'rgba(255,68,68,0.3)';
+    ctx.fill();
+    ctx.strokeStyle = R2.online ? '#4fc3f7' : '#f44';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.shadowBlur = 0;
+
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 14px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText('R2', r2x, r2y - 4);
+    ctx.font = '9px Arial';
+    ctx.fillText(`TMP: ${R2.tmp.toFixed(1)}`, r2x, r2y + 20);
+
+    // Status unten
+    ctx.fillStyle = '#445555';
+    ctx.font = '10px Arial';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(connected ? '🔗 Verbunden' : '⛔ Getrennt', cx, h - 10);
+}
+
+// ================================================================
+// 7. CONTROLS
+// ================================================================
+
+document.getElementById('btn-connect').addEventListener('click', doConnect);
+document.getElementById('btn-sync').addEventListener('click', doSync);
+document.getElementById('btn-ping').addEventListener('click', doPing);
+document.getElementById('btn-data').addEventListener('click', doDataFlow);
+document.getElementById('btn-auto').addEventListener('click', toggleAuto);
+document.getElementById('btn-reset').addEventListener('click', doReset);
+
+// ================================================================
+// 8. TASTATUR
+// ================================================================
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'c' || e.key === 'C') doConnect();
+    if (e.key === 's' || e.key === 'S') doSync();
+    if (e.key === 'p' || e.key === 'P') doPing();
+    if (e.key === 'd' || e.key === 'D') doDataFlow();
+    if (e.key === ' ') { e.preventDefault(); toggleAuto(); }
+    if (e.key === 'x' || e.key === 'X') doReset();
+});
+
+// ================================================================
+// 9. INIT
+// ================================================================
+
+updateUI();
+log('🔗 REAL‑CONNECT · 2 Rechner · geladen', 'ok');
+log('⌨️  c=Connect  s=Sync  p=Ping  d=Data-Flow  space=Auto  x=Reset', 'ok');
+
+// Animation
+setInterval(() => drawVisualization(), 100);
+
+console.log('🔗 REAL‑CONNECT · 2 Rechner · Alle Optionen');
+console.log('⌨️  c=Connect  s=Sync  p=Ping  d=Data-Flow  space=Auto  x=Reset');
+</script>
 
 </body>
 </html>
