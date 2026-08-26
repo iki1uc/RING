@@ -1,24 +1,23 @@
-/* CORE: 1 + 2 */
+import { TMP1 } from "../net/tmp1.js";
+import { TMP2 } from "../net/tmp2.js";
 
-import { AX9MAIN } from "../net/AX9MAIN.js";
-import { AX9TPXX } from "../net/AX9TPXX.js";
+export function TMP3() {
 
-export function coreProcess() {
-
-    const ki = {
-        main: AX9MAIN.KI,
-        tmp: [...AX9TPXX.KI, "TMP-RÄR-KI"]
+    return {
+        KI: {
+            base: TMP1.KI,
+            rar: TMP2.KI,
+            ratio: TMP1.KI.length / TMP2.KI.length
+        },
+        USER: {
+            base: TMP1.USER,
+            rar: TMP2.USER,
+            ratio: TMP1.USER.length / TMP2.USER.length
+        },
+        RAW: {
+            base: TMP1.RAW,
+            rar: TMP2.RAW,
+            ratio: TMP1.RAW.length / TMP2.RAW.length
+        }
     };
-
-    const user = {
-        main: AX9MAIN.USER,
-        tmp: [...AX9TPXX.USER, "TMP-RÄR-USER"]
-    };
-
-    const raw = {
-        main: AX9MAIN.RAW,
-        tmp: AX9TPXX.RAW
-    };
-
-    return { ki, user, raw };
 }
