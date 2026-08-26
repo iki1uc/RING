@@ -1,10 +1,23 @@
-export function SLI_CONTINUUM(pipe, matrix, tmp) {
+export function SLI_DICHTUNG({ dusche, sonne, baden, albtraum, kate }) {
+
     return {
-        pipe,
-        matrix,
-        tmp,
-        layer: "CONTINUUM",
-        view: "SLI-CONTINUUM"
+        type: "SLI_DICHTUNG",
+        elements: {
+            wasser: dusche,
+            feuer: sonne,
+            körper: baden,
+            schatten: albtraum,
+            raum: kate
+        },
+        render() {
+            return `
+DICHTUNG:
+Wasser fließt → ${dusche}
+Feuer brennt → ${sonne}
+Körper trägt → ${baden}
+Schatten spricht → ${albtraum}
+Raum hält → ${kate}
+            `;
+        }
     };
 }
-
