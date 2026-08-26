@@ -1,0 +1,14 @@
+// NC/nc.sync
+import { NC } from "./nc.js";
+
+export function NC_SYNC(run = 1, mode = "seq") {
+
+    const nc = NC(run, mode);
+
+    return {
+        core: nc.core,
+        pipe: nc.pipe,
+        sli: nc.sli,
+        sync: true
+    };
+}
