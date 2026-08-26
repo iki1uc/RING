@@ -1,24 +1,68 @@
-/* CORE: 1 + 2 */
+/* NET: WORK */
 
-import { AX9MAIN } from "../net/AX9MAIN.js";
-import { AX9TPXX } from "../net/AX9TPXX.js";
+import { RFREI } from "../core/r-frei.js";
+import { RINGBUS } from "../core/ring-bus.js";
+import { AX9MAIN } from "./AX9MAIN.js";
+import { AX9TPXX } from "./AX9TPXX.js";
 
-export function coreProcess() {
+export const WORK = {
 
-    const ki = {
-        main: AX9MAIN.KI,
-        tmp: [...AX9TPXX.KI, "TMP-RÄR-KI"]
-    };
+    nodes: [
+        ...AX9MAIN.KI,
+        ...AX9MAIN.USER,
+        ...AX9MAIN.RAW,
+        ...AX9TPXX.KI,
+        ...AX9TPXX.USER,
+        ...AX9TPXX.RAW,
+        "TMP-RÄR-KI",
+        "TMP-RÄR-USER"
+    ],
 
-    const user = {
-        main: AX9MAIN.USER,
-        tmp: [...AX9TPXX.USER, "TMP-RÄR-USER"]
-    };
+    work() {
+        const out = [];
 
-    const raw = {
-        main: AX9MAIN.RAW,
-        tmp: AX9TPXX.RAW
-    };
+        for (const ax of this.nodes) {
+            if (RFREI.is(ax)) {
+                out.push({
+                    axiom: ax,
+                    pq: RINGBUS.state.pq?.value || 0,
+                    mode: RINGBUS.state.mode,
+                    action: "WORK"
+                });
+            }
+        }
 
-    return { ki, user, raw };
-}
+        return out.length ? out : [{
+            axiom: "TMP-RÄR-KI",
+            pq: 0,
+            mode: "fallback",
+            action: "WORK-FALLBACK"
+        }];
+    },
+
+    max() {
+        let best = null;
+
+        for (const ax of this.nodes) {
+            if (RFREI.is(ax)) {
+                const pq = RINGBUS.state.pq?.value || 0;
+                if (!best || pq > best.pq) best = { axiom: ax, pq };
+            }
+        }
+
+        return best || { axiom: "TMP-RÄR-KI", pq: 0 };
+    },
+
+    min() {
+        let low = null;
+
+        for (const ax of this.nodes) {
+            if (RFREI.is(ax)) {
+                const pq = RINGBUS.state.pq?.value || 0;
+                if (!low || pq < low.pq) low = { axiom: ax, pq };
+            }
+        }
+
+        return low || { axiom: "TMP-RÄR-USER", pq: 0 };
+    }
+};
