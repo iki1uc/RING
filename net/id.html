@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>ALL · ID · Master-Sortierer · NETLOAD</title>
+
+<style>
+body {
+    background:#000;
+    color:#0f0;
+    font-family:monospace;
+    text-align:center;
+    padding:40px;
+}
+
+/* Container */
+#cube {
+    width:360px;
+    height:360px;
+    margin:auto;
+    position:relative;
+}
+
+/* Zellen */
+.cell {
+    width:30px;
+    height:30px;
+    background:#0a0;
+    border:1px solid #222;
+    position:absolute;
+    transition:0.25s;
+}
+
+/* NETLOAD-Pulse */
+.cell.active {
+    background:#00ffea;
+    box-shadow:0 0 12px #00ffea;
+}
+
+/* Gate-Farben */
+.cell.gate-boom { background:#ff6600; }
+.cell.gate-wirbel { background:#ffee00; }
+.cell.gate-echo { background:#00aaff; }
+.cell.gate-balance { background:#00ff00; }
+.cell.gate-control { background:#555; }
+</style>
+</head>
+
+<body>
+
+<h1>ALL · ID · Master-Sortierer · NETLOAD</h1>
+<div id="cube"></div>
+
+<script>
+const cube = document.getElementById("cube");
+
+/* 9x9 Zellen erzeugen */
+let cells = [];
+for(let r=0; r<9; r++){
+    for(let c=0; c<9; c++){
+        const cell = document.createElement("div");
+        cell.className = "cell";
+        cell.style.left = (c*40)+"px";
+        cell.style.top  = (r*40)+"px";
+        cube.appendChild(cell);
+        cells.push(cell);
+    }
+}
+
+/* TMP-Wert simulieren */
+function TMP_VALUE(){
+    return Math.floor(Math.random()*100)+1;
+}
+
+/* Gate-Routing */
+function TMP_GATE(v){
+    if(v >= 80) return "gate-boom";
+    if(v >= 60) return "gate-wirbel";
+    if(v >= 40) return "gate-echo";
+    if(v >= 20) return "gate-balance";
+    return "gate-control";
+}
+
+/* NETLOAD-Online-Pulse */
+function NETLOAD(){
+    cells.forEach(cell => {
+        const tmp = TMP_VALUE();
+        const gate = TMP_GATE(tmp);
+
+        cell.className = "cell " + gate;
+
+        if(tmp > 70){
+            cell.classList.add("active");
+        } else {
+            cell.classList.remove("active");
+        }
+    });
+}
+
+/* Auto-Modus */
+setInterval(NETLOAD, 500);
+</script>
+
+</body>
+</html>
