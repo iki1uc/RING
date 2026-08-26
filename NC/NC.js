@@ -1,8 +1,8 @@
-// nc.js – Auto-Run-Trigger für CORE, PIPE, SLI
+// NC/nc.js – Auto-Run-Trigger für CORE, PIPE, SLI
 
-import { CORE } from "./core.js";
-import { PIPE } from "./pipe/pipe.js";
-import { SLI } from "./sli/sli.js";
+import { CORE } from "../CORE/core.js";
+import { PIPE } from "../PIPE/pipe.js";
+import { SLI } from "../SLI/sli.js";
 
 export function NC(run = 1, mode = "seq") {
 
