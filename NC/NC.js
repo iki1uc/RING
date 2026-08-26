@@ -1,5 +1,4 @@
-// NC/nc.js – Auto-Run-Trigger für CORE, PIPE, SLI
-
+// NC/nc.js
 import { CORE } from "../CORE/core.js";
 import { PIPE } from "../PIPE/pipe.js";
 import { SLI } from "../SLI/sli.js";
