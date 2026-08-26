@@ -1,28 +1,22 @@
 /* ============================================================
-   AXIOM-WORK · AXIOM-MAX · AXIOM-MIN
-   USER 1–3 · KI 1–3 · Fallback TMP-RESPO
+   WORK.js · AXIOM-WORK / AXIOM-MAX / AXIOM-MIN
+   Nutzt KI1–KI3 und USER1–USER3
+   Fallback: TMP-RESPO
    ============================================================ */
 
 import { RFREI } from "../core/r-frei.js";
 import { RINGBUS } from "../core/ring-bus.js";
-import { RESPO } from "../core/RESPO.js";   // dein TMP-RESPO Fallback
+import { RESPO } from "./RESPO.js";
 
-export const AXWORK = {
+export const WORK = {
 
     nodes: ["KI1","KI2","KI3","USER1","USER2","USER3"],
     fallback: "TMP-RESPO",
 
-    // --------------------------------------------------------
-    // 1. Node holen (mit Fallback)
-    // --------------------------------------------------------
     getNode(id) {
-        if (this.nodes.includes(id)) return id;
-        return this.fallback;
+        return this.nodes.includes(id) ? id : this.fallback;
     },
 
-    // --------------------------------------------------------
-    // 2. AXIOM-WORK → Team-Arbeit
-    // --------------------------------------------------------
     work() {
         const out = [];
 
@@ -30,7 +24,8 @@ export const AXWORK = {
             if (RFREI.is(id)) {
                 out.push({
                     id,
-                    data: RINGBUS.reveal(),
+                    pq: RINGBUS.state.pq?.value || 0,
+                    mode: RINGBUS.state.mode,
                     action: "WORK"
                 });
             }
@@ -47,57 +42,39 @@ export const AXWORK = {
         return out;
     },
 
-    // --------------------------------------------------------
-    // 3. AXIOM-MAX → stärkster aktiver Node
-    // --------------------------------------------------------
     max() {
         let best = null;
 
         for (const id of this.nodes) {
             if (RFREI.is(id)) {
                 const pq = RINGBUS.state.pq?.value || 0;
-                if (!best || pq > best.pq) {
-                    best = { id, pq };
-                }
+                if (!best || pq > best.pq) best = { id, pq };
             }
         }
 
-        if (!best) {
-            return {
-                id: this.fallback,
-                pq: 0,
-                data: RESPO.tmp(),
-                action: "MAX-FALLBACK"
-            };
-        }
-
-        return best;
+        return best || {
+            id: this.fallback,
+            pq: 0,
+            data: RESPO.tmp(),
+            action: "MAX-FALLBACK"
+        };
     },
 
-    // --------------------------------------------------------
-    // 4. AXIOM-MIN → schwächster aktiver Node
-    // --------------------------------------------------------
     min() {
         let low = null;
 
         for (const id of this.nodes) {
             if (RFREI.is(id)) {
                 const pq = RINGBUS.state.pq?.value || 0;
-                if (!low || pq < low.pq) {
-                    low = { id, pq };
-                }
+                if (!low || pq < low.pq) low = { id, pq };
             }
         }
 
-        if (!low) {
-            return {
-                id: this.fallback,
-                pq: 0,
-                data: RESPO.tmp(),
-                action: "MIN-FALLBACK"
-            };
-        }
-
-        return low;
+        return low || {
+            id: this.fallback,
+            pq: 0,
+            data: RESPO.tmp(),
+            action: "MIN-FALLBACK"
+        };
     }
 };
