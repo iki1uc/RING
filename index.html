@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌀 LICHTLÖSUNG · EVO-ERFÜLLUNG · KRÜMMUNG · NEU & ALT</title>
+    <title>🧠 ORTE‑EVO · GENIESTREICH · NC · MIND · ICE‑FEUER · KRÜMMUNG</title>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -12,23 +12,26 @@
             color: #e6f6ff;
             font-family: 'Consolas', monospace;
             min-height: 100vh;
-            padding: 16px;
+            padding: 12px;
             background-image: radial-gradient(ellipse at 30% 40%, #0a0a20 0%, #000 100%);
             transition: background 1.5s ease;
         }
 
-        .container { max-width: 1600px; margin: 0 auto; }
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
 
         .header {
             text-align: center;
             border-bottom: 2px solid #ffd700;
-            padding-bottom: 12px;
-            margin-bottom: 16px;
+            padding-bottom: 10px;
+            margin-bottom: 14px;
         }
         .header h1 {
-            font-size: 28px;
+            font-size: 26px;
             color: #ffd700;
-            letter-spacing: 6px;
+            letter-spacing: 5px;
             text-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
         }
         .header .sub {
@@ -37,20 +40,20 @@
             letter-spacing: 3px;
         }
         .header .sub span { color: #88ddbb; }
-        .header .sub .licht { color: #ffd700; }
-        .header .sub .evo { color: #4fc3f7; }
+        .header .sub .genie { color: #ff66ff; }
+        .header .sub .offizier { color: #ffd700; }
 
         .grid {
             display: grid;
-            grid-template-columns: 2.5fr 1.5fr;
-            gap: 16px;
+            grid-template-columns: 2fr 1fr;
+            gap: 12px;
         }
-        @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1000px) { .grid { grid-template-columns: 1fr; } }
 
         .panel {
             background: rgba(10,10,20,0.4);
             border: 1px solid rgba(255,255,255,0.02);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 12px;
             backdrop-filter: blur(10px);
         }
@@ -68,7 +71,7 @@
             overflow: hidden;
             position: relative;
         }
-        #lichtCanvas {
+        #formCanvas {
             width: 100%;
             height: auto;
             aspect-ratio: 16/10;
@@ -77,33 +80,6 @@
             border-radius: 8px;
             border: 1px solid rgba(255,255,255,0.02);
         }
-
-        .node-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr 1fr;
-            gap: 6px;
-            margin: 6px 0;
-        }
-        .node-card {
-            background: #0e0e1a;
-            border: 1px solid #1a1a2a;
-            border-radius: 8px;
-            padding: 8px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        .node-card:hover { border-color: #ffd700; background: rgba(255,215,0,0.03); }
-        .node-card .name { font-size: 13px; font-weight: bold; }
-        .node-card .type { font-size: 9px; color: #666; }
-        .node-card .status { font-size: 10px; margin-top: 2px; }
-        .node-card .status.on { color: #4f4; }
-        .node-card .status.off { color: #f44; }
-        .node-card .status.free { color: #ffaa00; }
-        .node-card .axiom { font-size: 8px; color: #445555; margin-top: 2px; }
-        .node-card .licht-wert { font-size: 7px; color: #ffd700; margin-top: 2px; }
-        .node-card .layer { font-size: 6px; color: #4fc3f7; margin-top: 1px; }
-        .node-card.licht { border-left: 3px solid #ffd700; }
 
         .controls {
             display: flex;
@@ -125,14 +101,56 @@
         button:hover { background: #1a1a2a; border-color: #ffd700; }
         button.primary { border-color: #ffd700; color: #ffd700; }
         button.primary:hover { background: #ffd700; color: #000; }
-        button.licht { border-color: #ffd700; color: #ffd700; background: rgba(255,215,0,0.05); }
-        button.licht:hover { background: #ffd700; color: #000; }
-        button.evo { border-color: #4fc3f7; color: #4fc3f7; }
-        button.evo:hover { background: #4fc3f7; color: #000; }
-        button.mind { border-color: #ff66ff; color: #ff66ff; }
-        button.mind:hover { background: #ff66ff; color: #000; }
-        button.danger { border-color: #f44; color: #f44; }
-        button.danger:hover { background: #f44; color: #000; }
+        button.genie { border-color: #ff66ff; color: #ff66ff; }
+        button.genie:hover { background: #ff66ff; color: #000; }
+        button.offizier { border-color: #ffd700; color: #ffd700; background: rgba(255,215,0,0.05); }
+        button.offizier:hover { background: #ffd700; color: #000; }
+        button.active { background: #1a1a2a; border-color: #4f4; color: #4f4; }
+
+        .slider-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+            margin: 4px 0;
+        }
+        .slider-item {
+            background: #0e0e1a;
+            border: 1px solid #1a1a2a;
+            border-radius: 4px;
+            padding: 4px 6px;
+            display: flex;
+            flex-direction: column;
+        }
+        .slider-item .label {
+            color: #666;
+            font-size: 7px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .slider-item input[type="range"] {
+            width: 100%;
+            height: 4px;
+            background: #1a1a2a;
+            border-radius: 2px;
+            -webkit-appearance: none;
+            appearance: none;
+            margin: 2px 0;
+        }
+        .slider-item input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: #ffd700;
+            cursor: pointer;
+        }
+        .slider-item .value {
+            color: #ffd700;
+            font-size: 10px;
+            text-align: center;
+            font-weight: bold;
+        }
 
         .log {
             background: rgba(0,0,0,0.3);
@@ -151,10 +169,63 @@
         .log .time { color: #445555; }
         .log .ok { color: #4f4; }
         .log .warn { color: #ffaa00; }
-        .log .licht { color: #ffd700; }
-        .log .evo { color: #4fc3f7; }
-        .log .mind { color: #ff66ff; }
+        .log .info { color: #4fc3f7; }
+        .log .genie { color: #ff66ff; }
         .log .offizier { color: #ffd700; }
+
+        .module-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr 1fr;
+            gap: 3px;
+            margin: 4px 0;
+        }
+        .module-btn {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: 4px;
+            padding: 4px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 8px;
+            color: #666;
+        }
+        .module-btn:hover {
+            border-color: #ffd700;
+            background: rgba(255,215,61,0.05);
+        }
+        .module-btn.active {
+            border-color: #ffd700;
+            color: #ffd700;
+            background: rgba(255,215,61,0.08);
+        }
+        .module-btn .sym { font-size: 14px; display: block; }
+        .module-btn .badge { font-size: 6px; color: #ff66ff; }
+
+        .footer {
+            text-align: center;
+            margin-top: 12px;
+            padding: 8px;
+            color: #222;
+            font-size: 8px;
+            letter-spacing: 2px;
+            border-top: 1px solid rgba(255,255,255,0.01);
+        }
+        .footer span { color: #ffd700; }
+
+        .ort-output {
+            background: rgba(0,0,0,0.3);
+            border-radius: 4px;
+            padding: 6px;
+            font-size: 8px;
+            color: #88ddbb;
+            max-height: 60px;
+            overflow-y: auto;
+            font-family: monospace;
+            white-space: pre-wrap;
+            border: 1px solid rgba(255,255,255,0.02);
+            margin-top: 4px;
+        }
 
         .status-bar {
             display: flex;
@@ -169,163 +240,236 @@
             gap: 4px;
         }
         .status-bar span { color: #88ddbb; }
-        .status-bar .licht-status { color: #ffd700; }
-        .status-bar .evo-status { color: #4fc3f7; }
-
-        .footer {
-            text-align: center;
-            margin-top: 12px;
-            padding: 8px;
-            color: #222;
-            font-size: 8px;
-            letter-spacing: 2px;
-            border-top: 1px solid rgba(255,255,255,0.01);
-        }
-        .footer span { color: #ffd700; }
+        .status-bar .genie-status { color: #ff66ff; }
+        .status-bar .offizier-status { color: #ffd700; }
     </style>
 </head>
 <body>
 
 <div class="container">
 
-    <!-- HEADER -->
+    <!-- ===== HEADER ===== -->
     <div class="header">
-        <h1>🌀 LICHTLÖSUNG · EVO-ERFÜLLUNG</h1>
+        <h1>🧠 ORTE‑EVO · <span class="genie">GENIESTREICH</span></h1>
         <div class="sub">
-            <span class="licht">LICHT</span> ·
-            <span class="evo">EVO</span> ·
-            <span>Krümmung · Neu & Alt · ICE-FEUER</span> ·
-            <span>All-All-All</span>
+            <span class="offizier">OFFIZIER</span> ·
+            <span class="genie">NC · MIND · ICE‑FEUER</span> ·
+            <span>KRÜMMUNG · EVO · LICHT</span> ·
+            <span>wieimmer4u</span>
         </div>
     </div>
 
     <div class="grid">
 
-        <!-- CANVAS -->
+        <!-- ===== LINKER BEREICH: CANVAS ===== -->
         <div class="panel">
-            <h2>🌀 KRÜMMUNG · LICHT · DUNKELHEIT · FLOW</h2>
+            <h2>🌀 FORMMAUM · ORTE‑EVO · GENIESTREICH</h2>
             <div class="canvas-wrap">
-                <canvas id="lichtCanvas"></canvas>
+                <canvas id="formCanvas"></canvas>
             </div>
-            <div style="display:flex;gap:12px;margin-top:6px;font-size:9px;color:#445555;flex-wrap:wrap;">
-                <span style="color:#ffd700;">⭐ AxiomA (Licht)</span>
-                <span style="color:#4fc3f7;">🔷 AxiomB (EVO)</span>
-                <span style="color:#ff66ff;">🟣 AxiomC (Mind)</span>
-                <span style="color:#00ff88;">🟢 Krümmung</span>
-                <span style="color:#ffaa00;">🌀 ICE-FEUER</span>
+
+            <!-- Slider -->
+            <div class="slider-group">
+                <div class="slider-item">
+                    <span class="label">🌀 Rotation X</span>
+                    <input type="range" id="rotX" min="0" max="360" value="0">
+                    <span class="value" id="rotX-val">0°</span>
+                </div>
+                <div class="slider-item">
+                    <span class="label">🌀 Rotation Y</span>
+                    <input type="range" id="rotY" min="0" max="360" value="0">
+                    <span class="value" id="rotY-val">0°</span>
+                </div>
+                <div class="slider-item">
+                    <span class="label">📐 Skala</span>
+                    <input type="range" id="scale" min="0.3" max="1.5" step="0.01" value="1.0">
+                    <span class="value" id="scale-val">1.00</span>
+                </div>
+                <div class="slider-item">
+                    <span class="label">🌀 TMP‑Pulse</span>
+                    <input type="range" id="pulse" min="0" max="2" step="0.01" value="1.0">
+                    <span class="value" id="pulse-val">1.00</span>
+                </div>
             </div>
 
             <!-- Status-Bar -->
             <div class="status-bar">
-                <span class="licht-status">💡 LICHT: <span id="licht-status">0.00</span></span>
-                <span class="evo-status">🌀 EVO: <span id="evo-status">0.00</span></span>
-                <span>🧠 MIND: <span id="mind-status">● aktiv</span></span>
-                <span>⭐ AXIOMC: <span id="axiomc-status">—</span></span>
-            </div>
-        </div>
-
-        <!-- PANEL: NODES + CONTROLS -->
-        <div class="panel">
-            <h2>🎯 LICHTLÖSUNG · NODES · EVO</h2>
-
-            <!-- AxiomA + B + C -->
-            <div style="font-size:9px;color:#ffd700;margin:2px 0;">⭐ AXIOME · LICHT + EVO + MIND</div>
-            <div class="node-grid">
-                <div class="node-card licht" data-id="licht">
-                    <div class="name">💡 Licht</div>
-                    <div class="type">AxiomA</div>
-                    <div class="status on" id="licht-status-node">● aktiv</div>
-                    <div class="axiom" id="licht-value">AX-LICHT</div>
-                    <div class="licht-wert" id="licht-flow">⏳ 0.00</div>
-                    <div class="layer">Layer: 1</div>
-                </div>
-                <div class="node-card" data-id="evo">
-                    <div class="name">🌀 EVO</div>
-                    <div class="type">AxiomB</div>
-                    <div class="status on" id="evo-status-node">● aktiv</div>
-                    <div class="axiom" id="evo-value">AX-EVO</div>
-                    <div class="licht-wert" id="evo-flow">⏳ 0.00</div>
-                    <div class="layer">Layer: 2</div>
-                </div>
-                <div class="node-card" data-id="mind">
-                    <div class="name">🧠 Mind</div>
-                    <div class="type">AxiomC</div>
-                    <div class="status free" id="mind-status-node">🟡 QundµSyn</div>
-                    <div class="axiom" id="mind-value">AX-MIND</div>
-                    <div class="licht-wert" id="mind-flow">⏳ 0.00</div>
-                    <div class="layer">Layer: 3</div>
-                </div>
-            </div>
-
-            <!-- Krümmung + ICE-FEUER -->
-            <div style="font-size:9px;color:#00ff88;margin:4px 0 2px;">🌀 KRÜMMUNG · ICE-FEUER</div>
-            <div class="node-grid" style="grid-template-columns:1fr 1fr;">
-                <div class="node-card">
-                    <div class="name">🌀 Krümmung</div>
-                    <div class="type">Flow</div>
-                    <div class="status on">● aktiv</div>
-                    <div class="axiom" id="krümmung-value">0.00</div>
-                    <div class="licht-wert" id="krümmung-flow">⏳ 0.00</div>
-                    <div class="layer">Layer: 4</div>
-                </div>
-                <div class="node-card">
-                    <div class="name">🔥❄️ ICE-FEUER</div>
-                    <div class="type">Mind-Bildung</div>
-                    <div class="status free">🟡 aktiv</div>
-                    <div class="axiom" id="icefeuer-value">QundµSyn</div>
-                    <div class="licht-wert" id="icefeuer-flow">⏳ 0.00</div>
-                    <div class="layer">Layer: 5</div>
-                </div>
+                <span class="genie-status">🧬 QundµSyn: <span id="qsyn-status">0.00</span></span>
+                <span class="offizier-status">⭐ EVO: <span id="evo-status">0.00</span></span>
+                <span>🌀 KRÜMMUNG: <span id="krümmung-status">0.00</span></span>
+                <span>💡 LICHT: <span id="licht-status">0.00</span></span>
             </div>
 
             <!-- Controls -->
             <div class="controls">
-                <button class="licht" id="btn-licht">💡 LICHT</button>
-                <button class="evo" id="btn-evo">🌀 EVO</button>
-                <button class="mind" id="btn-mind">🧠 MIND</button>
-                <button class="primary" id="btn-krümmung">🌀 KRÜMMUNG</button>
-                <button id="btn-icefeuer">🔥❄️ ICE-FEUER</button>
-                <button class="danger" id="btn-reset">⟲ RESET</button>
+                <button class="primary" id="btn-start">▶ START</button>
+                <button class="offizier" id="btn-genie">🧠 GENIE</button>
+                <button class="genie" id="btn-icefeuer">🔥❄️ ICE‑FEUER</button>
+                <button id="btn-form">🔷 FORM</button>
+                <button id="btn-grid">📐 GRID</button>
+                <button id="btn-axes">🎯 ACHSEN</button>
+                <button id="btn-reset">⟲ RESET</button>
+                <button id="btn-auto">▶ AUTO</button>
+            </div>
+
+            <!-- ORTE‑EVO‑Ausgabe -->
+            <div class="ort-output" id="ort-output">⏳ ORTE‑EVO wird geladen…</div>
+        </div>
+
+        <!-- ===== RECHTER BEREICH: EDITIERRAUM ===== -->
+        <div class="panel">
+            <h2>✏️ EDITIERRAUM · MODULE · NC · MIND</h2>
+
+            <!-- Module -->
+            <div class="module-grid" id="module-grid">
+                <div class="module-btn active" data-mod="CORE"><span class="sym">◆</span>CORE<span class="badge">NC</span></div>
+                <div class="module-btn" data-mod="RESPO"><span class="sym">◈</span>RESPO<span class="badge">AXI</span></div>
+                <div class="module-btn" data-mod="MIND"><span class="sym">🧠</span>MIND<span class="badge">QµSyn</span></div>
+                <div class="module-btn" data-mod="ICEFEUER"><span class="sym">🔥❄️</span>ICEFEUER<span class="badge">RUN3</span></div>
+                <div class="module-btn" data-mod="CONTINUUM"><span class="sym">🌀</span>CONTINUUM<span class="badge">PIPE</span></div>
+                <div class="module-btn" data-mod="KRÜMMUNG"><span class="sym">〰️</span>KRÜMMUNG<span class="badge">FLOW</span></div>
+                <div class="module-btn" data-mod="Q"><span class="sym">◉</span>Q‑LAGE<span class="badge">ORT</span></div>
+                <div class="module-btn" data-mod="VERIFY"><span class="sym">✓</span>VERIFY<span class="badge">PRÜF</span></div>
+                <div class="module-btn" data-mod="BORE"><span class="sym">◎</span>BORE<span class="badge">KERN</span></div>
+                <div class="module-btn" data-mod="WIE"><span class="sym">❓</span>WIE<span class="badge">WEG</span></div>
+                <div class="module-btn" data-mod="MER"><span class="sym">🌊</span>MER<span class="badge">WASSER</span></div>
+                <div class="module-btn" data-mod="IM"><span class="sym">🧬</span>IM<span class="badge">GEN</span></div>
+                <div class="module-btn" data-mod="ADD"><span class="sym">➕</span>ADD.room<span class="badge">RAUM</span></div>
+                <div class="module-btn" data-mod="ID"><span class="sym">🆔</span>ID<span class="badge">IDENT</span></div>
+                <div class="module-btn" data-mod="ORT"><span class="sym">📍</span>ORT<span class="badge">POS</span></div>
+                <div class="module-btn" data-mod="DICHTUNG"><span class="sym">🌫️</span>DICHTUNG<span class="badge">POESIE</span></div>
+            </div>
+
+            <!-- Parameter-Editor -->
+            <div id="param-editor" style="background:#0e0e1a;border:1px solid #1a1a2a;border-radius:4px;padding:6px;margin:4px 0;font-size:9px;">
+                <div style="color:#666;font-size:7px;text-transform:uppercase;letter-spacing:1px;">📊 GENIE‑PARAMETER</div>
+                <div id="param-list">
+                    <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                        <span style="color:#666;">qsyn</span>
+                        <span style="color:#ff66ff;" id="param-qsyn">0.00</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                        <span style="color:#666;">icefeuer</span>
+                        <span style="color:#ffd700;" id="param-icefeuer">0.00</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                        <span style="color:#666;">krümmung</span>
+                        <span style="color:#4fc3f7;" id="param-krümmung">0.00</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                        <span style="color:#666;">evo</span>
+                        <span style="color:#ffd700;" id="param-evo">0.00</span>
+                    </div>
+                    <div style="display:flex;justify-content:space-between;padding:2px 0;">
+                        <span style="color:#666;">licht</span>
+                        <span style="color:#ffaa00;" id="param-licht">0.00</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Edit-Feld -->
+            <div style="display:flex;gap:4px;margin:4px 0;">
+                <input type="text" id="edit-input" placeholder="key=value (z.B. evo=1.5)" style="flex:1;background:#111;border:1px solid #333;color:#9cf;padding:4px 8px;border-radius:4px;font-family:inherit;font-size:9px;">
+                <button id="btn-edit" class="primary" style="font-size:9px;">✏️ GENIE</button>
             </div>
 
             <!-- Log -->
-            <div class="log" id="log">
-                <div class="entry"><span class="time">[INIT]</span> <span class="licht">💡 LICHTLÖSUNG · EVO-ERFÜLLUNG · KRÜMMUNG</span></div>
-                <div class="entry"><span class="time">[INIT]</span> <span class="evo">🌀 Neu & Alt · erwünscht · dunkel → Licht</span></div>
+            <div id="log">
+                <div class="entry"><span class="time">[INIT]</span> <span class="offizier">🧠 ORTE‑EVO · GENIESTREICH · OFFIZIER</span></div>
+                <div class="entry"><span class="time">[INIT]</span> <span class="genie">🔥❄️ ICE‑FEUER · QundµSyn · KRÜMMUNG</span></div>
             </div>
         </div>
     </div>
 
+    <!-- ===== FOOTER ===== -->
     <div class="footer">
-        <span>💡</span> LICHTLÖSUNG · EVO-ERFÜLLUNG · KRÜMMUNG · Neu & Alt · <span>wieimmer4u</span>
+        <span>🧠</span> ORTE‑EVO · GENIESTREICH · NC · MIND · ICE‑FEUER · KRÜMMUNG · <span>wieimmer4u</span>
     </div>
 
 </div>
 
+<!-- ============================================================ -->
+<!-- SCRIPT – GENIESTREICH · ORTE‑EVO · NC · MIND · ICE‑FEUER   -->
+<!-- ============================================================ -->
 <script>
-// ============================================================
-// LICHTLÖSUNG · EVO-ERFÜLLUNG · KRÜMMUNG · NEU & ALT
-// ============================================================
+// ================================================================
+// 1. ORTE‑EVO CORE + GENIE
+// ================================================================
 
-// ─── STATE ──────────────────────────────────────────────────
-let licht = 1.0;
-let evo = 1.0;
-let mind = 1.0;
-let krümmung = 0;
-let icefeuer = 0;
-let flowActive = false;
-
-// ─── AXIOME ─────────────────────────────────────────────────
-const AXIOM = {
-    LICHT: { name: 'Licht', value: 1.0, layer: 1, color: '#ffd700' },
-    EVO: { name: 'EVO', value: 1.0, layer: 2, color: '#4fc3f7' },
-    MIND: { name: 'Mind', value: 1.0, layer: 3, color: '#ff66ff' }
+const ORTE_EVO = {
+    d5: "ORTE‑D5‑Achse‑EVO",
+    matrix: "6D‑Matrix‑EVO",
+    tmp: "TMP‑Konstellation‑EVO",
+    frame: "ORTE‑EVO‑TARGET‑SCENE",
+    module: "CORE",
+    rotX: 0,
+    rotY: 0,
+    scale: 1.0,
+    pulse: 1.0,
+    qsyn: 0,
+    icefeuer: 0,
+    krümmung: 0,
+    evo: 1.0,
+    licht: 1.0
 };
 
-// ─── DOM ────────────────────────────────────────────────────
-const canvas = document.getElementById('lichtCanvas');
+// ================================================================
+// 2. MODULE
+// ================================================================
+
+const MODULES = {
+    CORE: { sym: '◆', label: 'CORE', color: '#ffd700' },
+    RESPO: { sym: '◈', label: 'RESPO', color: '#4f4' },
+    MIND: { sym: '🧠', label: 'MIND', color: '#ff66ff' },
+    ICEFEUER: { sym: '🔥❄️', label: 'ICEFEUER', color: '#ffaa00' },
+    CONTINUUM: { sym: '🌀', label: 'CONTINUUM', color: '#4fc3f7' },
+    KRÜMMUNG: { sym: '〰️', label: 'KRÜMMUNG', color: '#00ff88' },
+    Q: { sym: '◉', label: 'Q‑LAGE', color: '#ff66ff' },
+    VERIFY: { sym: '✓', label: 'VERIFY', color: '#4f4' },
+    BORE: { sym: '◎', label: 'BORE', color: '#ff8c00' },
+    WIE: { sym: '❓', label: 'WIE', color: '#ffaa00' },
+    MER: { sym: '🌊', label: 'MER', color: '#00ccff' },
+    IM: { sym: '🧬', label: 'IM', color: '#ff66ff' },
+    ADD: { sym: '➕', label: 'ADD.room', color: '#ffd700' },
+    ID: { sym: '🆔', label: 'ID', color: '#9cf' },
+    ORT: { sym: '📍', label: 'ORT', color: '#6b6bff' },
+    DICHTUNG: { sym: '🌫️', label: 'DICHTUNG', color: '#ffdd88' }
+};
+
+// ================================================================
+// 3. STATE
+// ================================================================
+
+let running = true;
+let autoMode = false;
+let autoTimer = null;
+let currentModule = 'CORE';
+let time = 0;
+let genieActive = false;
+
+// ================================================================
+// 4. LOG
+// ================================================================
+
+function log(msg, type = 'ok') {
+    const logDiv = document.getElementById('log');
+    const entry = document.createElement('div');
+    entry.className = 'entry';
+    const time = new Date().toLocaleTimeString();
+    const cls = type === 'ok' ? 'ok' : type === 'warn' ? 'warn' : type === 'info' ? 'info' : type === 'genie' ? 'genie' : type === 'offizier' ? 'offizier' : '';
+    entry.innerHTML = `<span class="time">[${time}]</span> <span class="${cls}">${msg}</span>`;
+    logDiv.appendChild(entry);
+    logDiv.scrollTop = logDiv.scrollHeight;
+    while (logDiv.children.length > 30) logDiv.removeChild(logDiv.firstChild);
+}
+
+// ================================================================
+// 5. CANVAS
+// ================================================================
+
+const canvas = document.getElementById('formCanvas');
 const ctx = canvas.getContext('2d');
-const logDiv = document.getElementById('log');
+let W, H, cx, cy, r;
 
 function resizeCanvas() {
     const rect = canvas.parentElement.getBoundingClientRect();
@@ -333,290 +477,370 @@ function resizeCanvas() {
     const h = w * 0.625 || 500;
     canvas.width = w;
     canvas.height = h;
+    W = canvas.width;
+    H = canvas.height;
+    cx = W / 2;
+    cy = H / 2;
+    r = Math.min(W, H) * 0.35;
 }
 resizeCanvas();
 window.addEventListener('resize', resizeCanvas);
 
-// ─── LOG ────────────────────────────────────────────────────
-function log(msg, type = 'ok') {
-    const entry = document.createElement('div');
-    entry.className = 'entry';
-    const time = new Date().toLocaleTimeString();
-    const cls = type === 'ok' ? 'ok' : type === 'licht' ? 'licht' : type === 'evo' ? 'evo' : type === 'mind' ? 'mind' : type === 'offizier' ? 'offizier' : 'warn';
-    entry.innerHTML = `<span class="time">[${time}]</span> <span class="${cls}">${msg}</span>`;
-    logDiv.appendChild(entry);
-    logDiv.scrollTop = logDiv.scrollHeight;
-    while (logDiv.children.length > 50) logDiv.removeChild(logDiv.firstChild);
-}
+// ================================================================
+// 6. DRAW – GENIESTREICH-FORMMAUM
+// ================================================================
 
-// ─── UPDATE UI ─────────────────────────────────────────────
-function updateUI() {
-    document.getElementById('licht-status').textContent = licht.toFixed(2);
-    document.getElementById('evo-status').textContent = evo.toFixed(2);
-    document.getElementById('mind-status').textContent = mind > 0.7 ? '● aktiv' : '○ inaktiv';
-    document.getElementById('mind-status').style.color = mind > 0.7 ? '#4f4' : '#445555';
-    document.getElementById('axiomc-status').textContent = mind.toFixed(2);
+function drawForm() {
+    ctx.clearRect(0, 0, W, H);
 
-    document.getElementById('licht-value').textContent = `AX-LICHT (${licht.toFixed(2)})`;
-    document.getElementById('evo-value').textContent = `AX-EVO (${evo.toFixed(2)})`;
-    document.getElementById('mind-value').textContent = `AX-MIND (${mind.toFixed(2)})`;
-    document.getElementById('licht-flow').textContent = `💡 ${(licht * flowActive ? 0.5 : 0).toFixed(2)}`;
-    document.getElementById('evo-flow').textContent = `🌀 ${(evo * flowActive ? 0.5 : 0).toFixed(2)}`;
-    document.getElementById('mind-flow').textContent = `🧠 ${(mind * flowActive ? 0.5 : 0).toFixed(2)}`;
-    document.getElementById('krümmung-value').textContent = krümmung.toFixed(2);
-    document.getElementById('icefeuer-value').textContent = icefeuer > 0 ? 'QundµSyn 🔥❄️' : '—';
-}
+    const rotX = ORTE_EVO.rotX * Math.PI / 180;
+    const rotY = ORTE_EVO.rotY * Math.PI / 180;
+    const scale = ORTE_EVO.scale;
+    const pulse = ORTE_EVO.pulse;
+    const color = MODULES[currentModule]?.color || '#ffd700';
 
-// ─── LICHT ──────────────────────────────────────────────────
-function doLicht() {
-    licht = Math.min(2, licht + 0.15 + Math.random() * 0.1);
-    log(`💡 LICHT · ${licht.toFixed(2)} · Helligkeit steigt`, 'licht');
-    updateUI();
-    drawLicht();
-}
-
-// ─── EVO ────────────────────────────────────────────────────
-function doEvo() {
-    evo = Math.min(2, evo + 0.12 + Math.random() * 0.08);
-    log(`🌀 EVO · ${evo.toFixed(2)} · Erfüllung wächst`, 'evo');
-    updateUI();
-    drawLicht();
-}
-
-// ─── MIND ────────────────────────────────────────────────────
-function doMind() {
-    mind = Math.min(2, mind + 0.2 + Math.random() * 0.15);
-    log(`🧠 MIND · ${mind.toFixed(2)} · QundµSyn aktiv`, 'mind');
-    updateUI();
-    drawLicht();
-}
-
-// ─── KRÜMMUNG ──────────────────────────────────────────────
-function doKrümmung() {
-    krümmung = (licht + evo + mind) / 3;
-    flowActive = !flowActive;
-    log(`🌀 KRÜMMUNG · ${krümmung.toFixed(2)} · ${flowActive ? 'FLOW AKTIV' : 'FLOW PAUSIERT'}`, 'offizier');
-    updateUI();
-    drawLicht();
-}
-
-// ─── ICE-FEUER ──────────────────────────────────────────────
-function doIcefeuer() {
-    icefeuer = (licht * 0.618 + evo * 0.382 + mind * 0.5) / 1.5;
-    log(`🔥❄️ ICE-FEUER · ${icefeuer.toFixed(2)} · QundµSyn-Bildung`, 'mind');
-    updateUI();
-    drawLicht();
-}
-
-// ─── RESET ──────────────────────────────────────────────────
-function doReset() {
-    licht = 1.0;
-    evo = 1.0;
-    mind = 1.0;
-    krümmung = 0;
-    icefeuer = 0;
-    flowActive = false;
-    log('⟲ RESET · Alles zurückgesetzt', 'warn');
-    updateUI();
-    drawLicht();
-}
-
-// ─── DRAW LICHT ─────────────────────────────────────────────
-function drawLicht() {
-    const w = canvas.width, h = canvas.height;
-    ctx.clearRect(0, 0, w, h);
-
-    // Dunkelheit → Licht
-    const helligkeit = Math.min(1, (licht + evo + mind) / 6 + 0.2);
-    const grad = ctx.createRadialGradient(w/2, h/2, 10, w/2, h/2, w/2);
+    // Hintergrund – Licht & Dunkelheit
+    const helligkeit = Math.min(1, (ORTE_EVO.licht + ORTE_EVO.evo) / 3 + 0.2);
+    const grad = ctx.createRadialGradient(cx, cy, 10, cx, cy, W/2);
     grad.addColorStop(0, `rgba(20,20,40,${1 - helligkeit * 0.3})`);
     grad.addColorStop(0.5, `rgba(10,10,20,${1 - helligkeit * 0.2})`);
     grad.addColorStop(1, '#000');
     ctx.fillStyle = grad;
-    ctx.fillRect(0, 0, w, h);
+    ctx.fillRect(0, 0, W, H);
 
-    // Grid (dunkel)
+    // Grid
     ctx.strokeStyle = `rgba(255,255,255,${0.02 + helligkeit * 0.02})`;
     ctx.lineWidth = 0.5;
-    for (let x = 0; x < w; x += 50) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
-    for (let y = 0; y < h; y += 50) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
-
-    // Zentrum
-    const cx = w / 2, cy = h / 2;
-    const radius = Math.min(w, h) * 0.25;
-
-    // AxiomA (Licht)
-    const aAngle = -Math.PI / 2;
-    const aX = cx + Math.cos(aAngle) * radius;
-    const aY = cy + Math.sin(aAngle) * radius;
-    ctx.shadowBlur = 40;
-    ctx.shadowColor = `rgba(255,215,0,${0.1 + licht * 0.2})`;
-    ctx.beginPath();
-    ctx.arc(aX, aY, 20 + licht * 10, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255,215,0,${0.15 + licht * 0.25})`;
-    ctx.fill();
-    ctx.strokeStyle = '#ffd700';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-    ctx.fillStyle = '#ffd700';
-    ctx.font = '10px monospace';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('💡', aX, aY - 2);
-    ctx.font = '7px monospace';
-    ctx.textBaseline = 'top';
-    ctx.fillText(licht.toFixed(2), aX, aY + 16);
-
-    // AxiomB (EVO)
-    const bAngle = Math.PI / 2;
-    const bX = cx + Math.cos(bAngle) * radius;
-    const bY = cy + Math.sin(bAngle) * radius;
-    ctx.shadowBlur = 40;
-    ctx.shadowColor = `rgba(79,195,247,${0.1 + evo * 0.2})`;
-    ctx.beginPath();
-    ctx.arc(bX, bY, 20 + evo * 10, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(79,195,247,${0.15 + evo * 0.25})`;
-    ctx.fill();
-    ctx.strokeStyle = '#4fc3f7';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-    ctx.fillStyle = '#4fc3f7';
-    ctx.font = '10px monospace';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('🌀', bX, bY - 2);
-    ctx.font = '7px monospace';
-    ctx.textBaseline = 'top';
-    ctx.fillText(evo.toFixed(2), bX, bY + 16);
-
-    // AxiomC (Mind)
-    const cAngle = 0;
-    const cX = cx + Math.cos(cAngle) * radius * 0.7;
-    const cY = cy + Math.sin(cAngle) * radius * 0.7;
-    ctx.shadowBlur = 40;
-    ctx.shadowColor = `rgba(255,102,255,${0.1 + mind * 0.2})`;
-    ctx.beginPath();
-    ctx.arc(cX, cY, 20 + mind * 12, 0, Math.PI * 2);
-    ctx.fillStyle = `rgba(255,102,255,${0.15 + mind * 0.25})`;
-    ctx.fill();
-    ctx.strokeStyle = '#ff66ff';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.shadowBlur = 0;
-    ctx.fillStyle = '#ff66ff';
-    ctx.font = '10px monospace';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('🧠', cX, cY - 2);
-    ctx.font = '7px monospace';
-    ctx.textBaseline = 'top';
-    ctx.fillText(mind.toFixed(2), cX, cY + 16);
+    const gridSize = 40;
+    for (let x = 0; x < W; x += gridSize) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+    for (let y = 0; y < H; y += gridSize) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(W, y); ctx.stroke(); }
 
     // Krümmung (Flow)
-    if (flowActive) {
-        const pulse = Math.sin(Date.now() / 800) * 0.3 + 0.5;
+    if (ORTE_EVO.krümmung > 0.1) {
         ctx.shadowBlur = 20;
-        ctx.shadowColor = 'rgba(0,255,136,0.1)';
-        ctx.strokeStyle = `rgba(0,255,136,${0.1 + pulse * 0.2})`;
-        ctx.lineWidth = 1 + krümmung * 2;
+        ctx.shadowColor = `rgba(0,255,136,${0.1 + ORTE_EVO.krümmung * 0.1})`;
+        ctx.strokeStyle = `rgba(0,255,136,${0.05 + ORTE_EVO.krümmung * 0.1})`;
+        ctx.lineWidth = 1 + ORTE_EVO.krümmung * 2;
         ctx.setLineDash([4, 8]);
+        const pulse2 = Math.sin(Date.now() / 800) * 30;
         ctx.beginPath();
-        ctx.moveTo(aX, aY);
-        const cpX = cx + Math.sin(Date.now() / 500) * 30;
-        const cpY = cy + Math.cos(Date.now() / 500) * 30;
-        ctx.quadraticCurveTo(cpX, cpY, bX, bY);
-        ctx.stroke();
-        ctx.beginPath();
-        ctx.moveTo(bX, bY);
-        ctx.quadraticCurveTo(cpX + 20, cpY - 20, cX, cY);
+        ctx.moveTo(cx - r * 0.6, cy + pulse2 * 0.3);
+        ctx.quadraticCurveTo(cx, cy - r * 0.3 + pulse2, cx + r * 0.6, cy + pulse2 * 0.3);
         ctx.stroke();
         ctx.setLineDash([]);
         ctx.shadowBlur = 0;
+    }
 
-        // Flow-Partikel (Licht)
-        for (let i = 0; i < 8; i++) {
-            const t = (i / 8 + Date.now() / 2000) % 1;
-            const x = aX + (bX - aX) * t + Math.sin(t * Math.PI * 2 + Date.now() / 300) * 10;
-            const y = aY + (bY - aY) * t + Math.cos(t * Math.PI * 2 + Date.now() / 400) * 10;
+    ctx.save();
+    ctx.translate(cx, cy);
+    ctx.scale(scale, scale);
+    ctx.rotate(rotX);
+    ctx.rotate(rotY);
+
+    // Hauptform – 6D‑Matrix mit ICE-FEUER
+    const baseR = r * 0.6;
+    const points = 12;
+    const qsynFactor = 1 + ORTE_EVO.qsyn * 0.3;
+    const pulseR = baseR * (0.7 + Math.sin(time / 1000) * 0.1 * pulse * qsynFactor);
+
+    // 3D‑ähnliche Schichten
+    for (let layer = 0; layer < 3; layer++) {
+        const layerR = pulseR * (0.5 + layer * 0.25);
+        const offset = layer * 20 + ORTE_EVO.icefeuer * 5;
+
+        ctx.beginPath();
+        for (let i = 0; i < points; i++) {
+            const angle = (i / points) * Math.PI * 2 + time / 2000 + layer * 0.5 + ORTE_EVO.krümmung * 0.2;
+            const px = Math.cos(angle) * layerR;
+            const py = Math.sin(angle) * layerR + offset * 0.5;
+            if (i === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+        }
+        ctx.closePath();
+        const layerColor = layer === 0 ? '#ffd700' : layer === 1 ? '#ff66ff' : '#4fc3f7';
+        ctx.strokeStyle = layerColor;
+        ctx.lineWidth = 2 - layer * 0.4;
+        ctx.globalAlpha = 0.6 - layer * 0.1 + ORTE_EVO.icefeuer * 0.05;
+        ctx.stroke();
+
+        for (let i = 0; i < points; i++) {
+            const angle = (i / points) * Math.PI * 2 + time / 2000 + layer * 0.5 + ORTE_EVO.krümmung * 0.2;
+            const px = Math.cos(angle) * layerR;
+            const py = Math.sin(angle) * layerR + offset * 0.5;
             ctx.beginPath();
-            ctx.arc(x, y, 2 + krümmung * 2, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255,215,0,${0.2 + t * 0.4})`;
+            ctx.arc(px, py, 3 + pulse * 0.5 + ORTE_EVO.qsyn * 0.5, 0, Math.PI * 2);
+            ctx.fillStyle = layerColor;
+            ctx.globalAlpha = 0.5 + Math.sin(time / 500 + i) * 0.2 + ORTE_EVO.evo * 0.05;
             ctx.fill();
         }
     }
 
-    // ICE-FEUER (wenn aktiv)
-    if (icefeuer > 0) {
-        const glow = Math.min(1, icefeuer / 1.5);
-        const grad2 = ctx.createRadialGradient(cx, cy, 10, cx, cy, radius * 1.2);
-        grad2.addColorStop(0, `rgba(255,215,0,${glow * 0.05})`);
-        grad2.addColorStop(0.5, `rgba(79,195,247,${glow * 0.03})`);
-        grad2.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = grad2;
-        ctx.beginPath();
-        ctx.arc(cx, cy, radius * 1.2, 0, Math.PI * 2);
-        ctx.fill();
+    // D5‑Achse
+    ctx.globalAlpha = 0.3 + ORTE_EVO.licht * 0.1;
+    ctx.strokeStyle = '#ffd700';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([4, 8]);
+    ctx.beginPath();
+    ctx.moveTo(-r * 0.8, 0);
+    ctx.lineTo(r * 0.8, 0);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(0, -r * 0.8);
+    ctx.lineTo(0, r * 0.8);
+    ctx.stroke();
+    ctx.setLineDash([]);
 
-        ctx.fillStyle = `rgba(255,215,0,${0.1 + glow * 0.2})`;
-        ctx.font = '14px monospace';
+    // Mitte – QundµSyn
+    ctx.globalAlpha = 1;
+    const midSize = 6 + pulse * 2 + ORTE_EVO.qsyn * 3;
+    ctx.beginPath();
+    ctx.arc(0, 0, midSize, 0, Math.PI * 2);
+    const midColor = ORTE_EVO.qsyn > 0.5 ? '#ff66ff' : '#ffd700';
+    ctx.fillStyle = midColor;
+    ctx.shadowColor = midColor;
+    ctx.shadowBlur = 20 + ORTE_EVO.qsyn * 20;
+    ctx.fill();
+    ctx.shadowBlur = 0;
+
+    // ICE-FEUER Label
+    if (ORTE_EVO.icefeuer > 0.3) {
+        ctx.globalAlpha = 0.3 + ORTE_EVO.icefeuer * 0.2;
+        ctx.fillStyle = '#ffaa00';
+        ctx.font = '10px monospace';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
-        ctx.fillText('🔥❄️ ICE-FEUER', cx, cy - radius - 20);
+        ctx.fillText('🔥❄️ ICE-FEUER', 0, -r * 0.7);
     }
 
-    // Krümmungswert
-    ctx.fillStyle = `rgba(255,215,0,${0.1 + krümmung * 0.05})`;
-    ctx.font = '10px monospace';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'bottom';
-    ctx.fillText(`🌀 KRÜMMUNG: ${krümmung.toFixed(2)}`, cx, h - 16);
+    // QundµSyn Label
+    if (ORTE_EVO.qsyn > 0.3) {
+        ctx.globalAlpha = 0.3 + ORTE_EVO.qsyn * 0.2;
+        ctx.fillStyle = '#ff66ff';
+        ctx.font = '8px monospace';
+        ctx.textBaseline = 'top';
+        ctx.fillText('QundµSyn', 0, r * 0.7);
+    }
 
-    // EVO-Erfüllung
-    const erfüllung = (licht + evo + mind) / 3;
-    ctx.fillStyle = `rgba(79,195,247,${0.05 + erfüllung * 0.05})`;
+    ctx.restore();
+
+    // Status
+    ctx.fillStyle = '#445555';
     ctx.font = '8px monospace';
-    ctx.textBaseline = 'top';
-    ctx.fillText(`✨ EVO-ERFÜLLUNG: ${erfüllung.toFixed(2)}`, 10, 10);
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'bottom';
+    ctx.fillText(`🔄 ${currentModule} · qsyn:${ORTE_EVO.qsyn.toFixed(2)} · evo:${ORTE_EVO.evo.toFixed(2)} · krümmung:${ORTE_EVO.krümmung.toFixed(2)}`, 10, H - 6);
 }
 
-// ─── ANIMATION ─────────────────────────────────────────────
+// ================================================================
+// 7. UPDATE UI
+// ================================================================
+
+function updateUI() {
+    document.getElementById('qsyn-status').textContent = ORTE_EVO.qsyn.toFixed(2);
+    document.getElementById('evo-status').textContent = ORTE_EVO.evo.toFixed(2);
+    document.getElementById('krümmung-status').textContent = ORTE_EVO.krümmung.toFixed(2);
+    document.getElementById('licht-status').textContent = ORTE_EVO.licht.toFixed(2);
+    document.getElementById('param-qsyn').textContent = ORTE_EVO.qsyn.toFixed(2);
+    document.getElementById('param-icefeuer').textContent = ORTE_EVO.icefeuer.toFixed(2);
+    document.getElementById('param-krümmung').textContent = ORTE_EVO.krümmung.toFixed(2);
+    document.getElementById('param-evo').textContent = ORTE_EVO.evo.toFixed(2);
+    document.getElementById('param-licht').textContent = ORTE_EVO.licht.toFixed(2);
+
+    const output = document.getElementById('ort-output');
+    output.textContent = JSON.stringify(ORTE_EVO, null, 2);
+}
+
+// ================================================================
+// 8. GENIE-FUNKTIONEN
+// ================================================================
+
+function genieStreich() {
+    genieActive = !genieActive;
+    if (genieActive) {
+        ORTE_EVO.qsyn = Math.min(2, ORTE_EVO.qsyn + 0.3 + Math.random() * 0.2);
+        ORTE_EVO.evo = Math.min(2, ORTE_EVO.evo + 0.2 + Math.random() * 0.15);
+        ORTE_EVO.licht = Math.min(2, ORTE_EVO.licht + 0.15 + Math.random() * 0.1);
+        log(`🧠 GENIE-STREICH · qsyn:${ORTE_EVO.qsyn.toFixed(2)} · evo:${ORTE_EVO.evo.toFixed(2)} · licht:${ORTE_EVO.licht.toFixed(2)}`, 'genie');
+    } else {
+        log('⏸ GENIE pausiert', 'warn');
+    }
+    updateUI();
+}
+
+function iceFeuerBildung() {
+    ORTE_EVO.icefeuer = Math.min(2, ORTE_EVO.icefeuer + 0.3 + Math.random() * 0.2);
+    ORTE_EVO.qsyn = (ORTE_EVO.icefeuer * 0.618 + ORTE_EVO.evo * 0.382);
+    log(`🔥❄️ ICE-FEUER · ${ORTE_EVO.icefeuer.toFixed(2)} · QundµSyn: ${ORTE_EVO.qsyn.toFixed(2)}`, 'genie');
+    updateUI();
+}
+
+function doKrümmung() {
+    ORTE_EVO.krümmung = (ORTE_EVO.qsyn + ORTE_EVO.icefeuer + ORTE_EVO.evo) / 3;
+    log(`🌀 KRÜMMUNG · ${ORTE_EVO.krümmung.toFixed(2)}`, 'offizier');
+    updateUI();
+}
+
+// ================================================================
+// 9. ANIMATION
+// ================================================================
+
 function animate() {
-    if (flowActive) {
-        krümmung = (licht + evo + mind) / 3 * 0.7 + 0.3;
+    if (!running) return;
+    time += 16;
+    if (genieActive) {
+        ORTE_EVO.krümmung = (ORTE_EVO.qsyn + ORTE_EVO.icefeuer + ORTE_EVO.evo) / 3 * 0.5 + 0.2;
         updateUI();
     }
-    drawLicht();
+    drawForm();
     requestAnimationFrame(animate);
 }
 
-// ─── BUTTONS ────────────────────────────────────────────────
-document.getElementById('btn-licht').addEventListener('click', doLicht);
-document.getElementById('btn-evo').addEventListener('click', doEvo);
-document.getElementById('btn-mind').addEventListener('click', doMind);
-document.getElementById('btn-krümmung').addEventListener('click', doKrümmung);
-document.getElementById('btn-icefeuer').addEventListener('click', doIcefeuer);
-document.getElementById('btn-reset').addEventListener('click', doReset);
+// ================================================================
+// 10. CONTROLS
+// ================================================================
 
-// ─── TASTATUR ────────────────────────────────────────────────
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'l' || e.key === 'L') doLicht();
-    if (e.key === 'e' || e.key === 'E') doEvo();
-    if (e.key === 'm' || e.key === 'M') doMind();
-    if (e.key === 'k' || e.key === 'K') doKrümmung();
-    if (e.key === 'i' || e.key === 'I') doIcefeuer();
-    if (e.key === 'x' || e.key === 'X') doReset();
+// Slider
+document.getElementById('rotX').addEventListener('input', function() {
+    ORTE_EVO.rotX = Number(this.value);
+    document.getElementById('rotX-val').textContent = Math.round(this.value) + '°';
+});
+document.getElementById('rotY').addEventListener('input', function() {
+    ORTE_EVO.rotY = Number(this.value);
+    document.getElementById('rotY-val').textContent = Math.round(this.value) + '°';
+});
+document.getElementById('scale').addEventListener('input', function() {
+    ORTE_EVO.scale = Number(this.value);
+    document.getElementById('scale-val').textContent = this.value;
+});
+document.getElementById('pulse').addEventListener('input', function() {
+    ORTE_EVO.pulse = Number(this.value);
+    document.getElementById('pulse-val').textContent = this.value;
 });
 
-// ─── INIT ───────────────────────────────────────────────────
-updateUI();
-log('💡 LICHTLÖSUNG · EVO-ERFÜLLUNG · KRÜMMUNG', 'licht');
-log('⌨️  l=Licht  e=EVO  m=Mind  k=Krümmung  i=ICE-FEUER  x=Reset', 'ok');
-animate();
+// Buttons
+document.getElementById('btn-start').addEventListener('click', function() {
+    running = !running;
+    this.textContent = running ? '⏸ PAUSE' : '▶ START';
+    log(running ? '▶ START' : '⏸ PAUSE', 'info');
+    if (running) animate();
+});
 
-console.log('💡 LICHTLÖSUNG · EVO-ERFÜLLUNG · KRÜMMUNG');
-console.log('⌨️  l=Licht  e=EVO  m=Mind  k=Krümmung  i=ICE-FEUER  x=Reset');
+document.getElementById('btn-genie').addEventListener('click', genieStreich);
+document.getElementById('btn-icefeuer').addEventListener('click', iceFeuerBildung);
+
+document.getElementById('btn-form').addEventListener('click', function() {
+    ORTE_EVO.frame = 'FORM-MODE-' + Date.now().toString().slice(-4);
+    log('🔷 FORM gewechselt: ' + ORTE_EVO.frame, 'info');
+    updateUI();
+});
+
+document.getElementById('btn-grid').addEventListener('click', function() {
+    log('📐 GRID toggled', 'info');
+});
+
+document.getElementById('btn-axes').addEventListener('click', function() {
+    ORTE_EVO.d5 = 'AXIS-' + (Math.random() * 360).toFixed(0) + '°';
+    log('🎯 ACHSEN aktualisiert: ' + ORTE_EVO.d5, 'info');
+    updateUI();
+});
+
+document.getElementById('btn-reset').addEventListener('click', function() {
+    ORTE_EVO.rotX = 0; ORTE_EVO.rotY = 0; ORTE_EVO.scale = 1; ORTE_EVO.pulse = 1;
+    ORTE_EVO.qsyn = 0; ORTE_EVO.icefeuer = 0; ORTE_EVO.krümmung = 0;
+    ORTE_EVO.evo = 1; ORTE_EVO.licht = 1;
+    genieActive = false;
+    document.getElementById('rotX').value = 0; document.getElementById('rotY').value = 0;
+    document.getElementById('scale').value = 1; document.getElementById('pulse').value = 1;
+    document.getElementById('rotX-val').textContent = '0°'; document.getElementById('rotY-val').textContent = '0°';
+    document.getElementById('scale-val').textContent = '1.00'; document.getElementById('pulse-val').textContent = '1.00';
+    log('⟲ RESET', 'warn');
+    updateUI();
+});
+
+document.getElementById('btn-auto').addEventListener('click', function() {
+    autoMode = !autoMode;
+    this.textContent = autoMode ? '⏸ PAUSE' : '▶ AUTO';
+    if (autoMode) {
+        log('▶ AUTO gestartet', 'info');
+        autoTimer = setInterval(() => {
+            const mods = Object.keys(MODULES);
+            const idx = mods.indexOf(currentModule);
+            const next = mods[(idx + 1) % mods.length];
+            setModule(next);
+        }, 3000);
+    } else {
+        clearInterval(autoTimer);
+        autoTimer = null;
+        log('⏸ AUTO pausiert', 'warn');
+    }
+});
+
+// Module
+function setModule(mod) {
+    currentModule = mod;
+    ORTE_EVO.module = mod;
+    document.querySelectorAll('.module-btn').forEach(el => {
+        el.classList.toggle('active', el.dataset.mod === mod);
+    });
+    log('📦 MODUL: ' + mod, 'info');
+    updateUI();
+}
+
+document.querySelectorAll('.module-btn').forEach(el => {
+    el.addEventListener('click', function() { setModule(this.dataset.mod); });
+});
+
+// Edit
+document.getElementById('btn-edit').addEventListener('click', function() {
+    const input = document.getElementById('edit-input');
+    const parts = input.value.split('=');
+    if (parts.length === 2) {
+        const key = parts[0].trim();
+        const val = parseFloat(parts[1].trim());
+        if (key in ORTE_EVO && !isNaN(val)) {
+            ORTE_EVO[key] = Math.min(2, Math.max(0, val));
+            log(`✏️ GENIE: ${key} = ${ORTE_EVO[key].toFixed(2)}`, 'genie');
+            updateUI();
+        } else {
+            log(`❌ ${key} existiert nicht oder Wert ungültig`, 'warn');
+        }
+    } else {
+        log('⚠️ Format: key=value (z.B. evo=1.5)', 'warn');
+    }
+    input.value = '';
+});
+
+// ================================================================
+// 11. TASTATUR
+// ================================================================
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === ' ') { e.preventDefault(); document.getElementById('btn-start').click(); }
+    if (e.key === 'g' || e.key === 'G') document.getElementById('btn-genie').click();
+    if (e.key === 'i' || e.key === 'I') document.getElementById('btn-icefeuer').click();
+    if (e.key === 'k' || e.key === 'K') { doKrümmung(); }
+    if (e.key === 'r' || e.key === 'R') document.getElementById('btn-reset').click();
+    if (e.key === 'a' || e.key === 'A') document.getElementById('btn-auto').click();
+    if (e.key === 'f' || e.key === 'F') document.getElementById('btn-form').click();
+    if (e.key === 'x' || e.key === 'X') document.getElementById('btn-axes').click();
+    if (e.key === 'Enter' && document.activeElement === document.getElementById('edit-input')) {
+        document.getElementById('btn-edit').click();
+    }
+});
+
+// ================================================================
+// 12. INIT
+// ================================================================
+
+updateUI();
+animate();
+log('🧠 ORTE‑EVO · GENIESTREICH · OFFIZIER', 'offizier');
+log('⌨️  space=Start  g=Genie  i=ICE-FEUER  k=Krümmung  r=Reset  a=Auto  f=Form  x=Achsen  Enter=Edit', 'info');
+log('🔥❄️ ICE-FEUER · QundµSyn · KRÜMMUNG · EVO · LICHT', 'genie');
+
+console.log('🧠 ORTE‑EVO · GENIESTREICH · NC · MIND · ICE‑FEUER · KRÜMMUNG');
+console.log('⌨️  space=Start  g=Genie  i=ICE-FEUER  k=Krümmung  r=Reset  a=Auto  f=Form  x=Achsen  Enter=Edit');
+console.log('📦 Module: CORE, RESPO, MIND, ICEFEUER, CONTINUUM, KRÜMMUNG, Q, VERIFY, BORE, WIE, MER, IM, ADD, ID, ORT, DICHTUNG');
 </script>
 
 </body>
