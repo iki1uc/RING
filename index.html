@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🌀 AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR · AXIOM.NET</title>
+    <title>🌀 AXIOM‑SENSE · Leben ist rein · CORE + NET + SLI · TMP‑RÄ‑RE</title>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -16,10 +16,7 @@
             background-image: radial-gradient(ellipse at 30% 40%, #0a0a20 0%, #000 100%);
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
+        .container { max-width: 1600px; margin: 0 auto; }
 
         .header {
             text-align: center;
@@ -28,7 +25,7 @@
             margin-bottom: 16px;
         }
         .header h1 {
-            font-size: 26px;
+            font-size: 28px;
             color: #ffd700;
             letter-spacing: 6px;
             text-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
@@ -39,16 +36,17 @@
             letter-spacing: 3px;
         }
         .header .sub span { color: #88ddbb; }
-        .header .sub .ki { color: #ff66ff; }
-        .header .sub .user { color: #4fc3f7; }
-        .header .sub .raw { color: #00ff88; }
+        .header .sub .life { color: #00ff88; }
+        .header .sub .tmp { color: #ffaa00; }
+        .header .sub .rae { color: #4fc3f7; }
+        .header .sub .re { color: #ff66ff; }
 
         .grid {
             display: grid;
-            grid-template-columns: 3fr 1.2fr;
+            grid-template-columns: 2.5fr 1.5fr;
             gap: 16px;
         }
-        @media (max-width: 1000px) { .grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1100px) { .grid { grid-template-columns: 1fr; } }
 
         .panel {
             background: rgba(10,10,20,0.4);
@@ -71,7 +69,7 @@
             overflow: hidden;
             position: relative;
         }
-        #netCanvas {
+        #axiomCanvas {
             width: 100%;
             height: auto;
             aspect-ratio: 16/10;
@@ -96,37 +94,21 @@
             cursor: pointer;
             transition: all 0.3s;
         }
-        .node-card:hover {
-            border-color: #ffd700;
-            background: rgba(255,215,0,0.03);
-        }
-        .node-card .name {
-            font-size: 13px;
-            font-weight: bold;
-        }
-        .node-card .type {
-            font-size: 9px;
-            color: #666;
-        }
-        .node-card .status {
-            font-size: 10px;
-            margin-top: 2px;
-        }
+        .node-card:hover { border-color: #ffd700; background: rgba(255,215,0,0.03); }
+        .node-card .name { font-size: 13px; font-weight: bold; }
+        .node-card .type { font-size: 9px; color: #666; }
+        .node-card .status { font-size: 10px; margin-top: 2px; }
         .node-card .status.on { color: #4f4; }
         .node-card .status.off { color: #f44; }
-        .node-card .status.wait { color: #ffd700; }
-        .node-card .axiom {
-            font-size: 8px;
-            color: #445555;
-            margin-top: 2px;
-        }
-        .node-card.selected {
-            border-color: #ffd700;
-            background: rgba(255,215,0,0.06);
-        }
+        .node-card .status.free { color: #ffaa00; }
+        .node-card .axiom { font-size: 8px; color: #445555; margin-top: 2px; }
+        .node-card .data-flow { font-size: 7px; color: #ffd700; margin-top: 2px; min-height: 14px; }
+        .node-card .tmp { font-size: 7px; color: #ffaa00; margin-top: 1px; }
         .node-card.ki { border-left: 3px solid #ff66ff; }
         .node-card.user { border-left: 3px solid #4fc3f7; }
         .node-card.raw { border-left: 3px solid #00ff88; }
+        .node-card .max-badge { color: #ffd700; font-weight: bold; }
+        .node-card .min-badge { color: #4fc3f7; font-weight: bold; }
 
         .controls {
             display: flex;
@@ -145,42 +127,17 @@
             font-size: 9px;
             transition: all 0.2s;
         }
-        button:hover {
-            background: #1a1a2a;
-            border-color: #ffd700;
-        }
-        button.primary {
-            border-color: #ffd700;
-            color: #ffd700;
-        }
-        button.primary:hover {
-            background: #ffd700;
-            color: #000;
-        }
-        button.ki {
-            border-color: #ff66ff;
-            color: #ff66ff;
-        }
-        button.ki:hover {
-            background: #ff66ff;
-            color: #000;
-        }
-        button.user {
-            border-color: #4fc3f7;
-            color: #4fc3f7;
-        }
-        button.user:hover {
-            background: #4fc3f7;
-            color: #000;
-        }
-        button.raw {
-            border-color: #00ff88;
-            color: #00ff88;
-        }
-        button.raw:hover {
-            background: #00ff88;
-            color: #000;
-        }
+        button:hover { background: #1a1a2a; border-color: #ffd700; }
+        button.primary { border-color: #ffd700; color: #ffd700; }
+        button.primary:hover { background: #ffd700; color: #000; }
+        button.life { border-color: #00ff88; color: #00ff88; }
+        button.life:hover { background: #00ff88; color: #000; }
+        button.tmp { border-color: #ffaa00; color: #ffaa00; }
+        button.tmp:hover { background: #ffaa00; color: #000; }
+        button.rae { border-color: #4fc3f7; color: #4fc3f7; }
+        button.rae:hover { background: #4fc3f7; color: #000; }
+        button.danger { border-color: #f44; color: #f44; }
+        button.danger:hover { background: #f44; color: #000; }
 
         .log {
             background: rgba(0,0,0,0.3);
@@ -199,10 +156,13 @@
         .log .time { color: #445555; }
         .log .ok { color: #4f4; }
         .log .warn { color: #ffaa00; }
-        .log .ki { color: #ff66ff; }
-        .log .user { color: #4fc3f7; }
-        .log .raw { color: #00ff88; }
+        .log .life { color: #00ff88; }
+        .log .tmp { color: #ffaa00; }
+        .log .rae { color: #4fc3f7; }
+        .log .re { color: #ff66ff; }
         .log .connect { color: #ffd700; }
+        .log .max { color: #ffd700; }
+        .log .min { color: #4fc3f7; }
 
         .status-bar {
             display: flex;
@@ -217,6 +177,8 @@
             gap: 4px;
         }
         .status-bar span { color: #88ddbb; }
+        .status-bar .max { color: #ffd700; }
+        .status-bar .min { color: #4fc3f7; }
 
         .footer {
             text-align: center;
@@ -236,13 +198,13 @@
 
     <!-- HEADER -->
     <div class="header">
-        <h1>🌀 AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR</h1>
+        <h1>🌀 AXIOM‑SENSE · LEBEN IST REIN</h1>
         <div class="sub">
-            <span class="ki">KI</span> ·
-            <span class="user">USER</span> ·
-            <span class="raw">RAWATOR</span> ·
-            <span>AXIOM.NET</span> ·
-            <span>wähl‑/abwählbar</span>
+            <span class="life">CORE</span> ·
+            <span class="tmp">NET</span> ·
+            <span class="rae">SLI</span> ·
+            <span class="re">TMP‑RÄ‑RE</span> ·
+            <span>WORK / MAX / MIN</span>
         </div>
     </div>
 
@@ -250,30 +212,31 @@
 
         <!-- CANVAS -->
         <div class="panel">
-            <h2>🌀 NETZWERK‑VISUALISIERUNG · AXIOM.NET</h2>
+            <h2>🌀 CORE + NET + SLI · TMP‑RÄ‑RE · WORK / MAX / MIN</h2>
             <div class="canvas-wrap">
-                <canvas id="netCanvas"></canvas>
+                <canvas id="axiomCanvas"></canvas>
             </div>
             <div style="display:flex;gap:12px;margin-top:6px;font-size:9px;color:#445555;flex-wrap:wrap;">
                 <span style="color:#ff66ff;">🟣 KI</span>
                 <span style="color:#4fc3f7;">🔵 USER</span>
                 <span style="color:#00ff88;">🟢 RAWATOR</span>
-                <span style="color:#ffd700;">🔗 Verbindung</span>
-                <span style="color:#4f4;">● aktiv</span>
-                <span style="color:#f44;">● inaktiv</span>
+                <span style="color:#ffd700;">⭐ MAX</span>
+                <span style="color:#4fc3f7;">🔷 MIN</span>
+                <span style="color:#ffaa00;">🌀 TMP‑RÄ‑RE</span>
             </div>
 
             <!-- Status-Bar -->
             <div class="status-bar">
-                <span>🌀 AXIOM.NET: <span id="axiom-status">● aktiv</span></span>
-                <span>🔗 Verbindungen: <span id="conn-count">0</span></span>
-                <span>⚡ RAWATOR: <span id="rawator-status">● bereit</span></span>
+                <span>🌀 SENSE: <span id="sense-status">● aktiv</span></span>
+                <span class="max">⭐ MAX: <span id="max-id">—</span></span>
+                <span class="min">🔷 MIN: <span id="min-id">—</span></span>
+                <span>🧬 TMP: <span id="tmp-value">0.00</span></span>
             </div>
         </div>
 
         <!-- PANEL: NODES + CONTROLS -->
         <div class="panel">
-            <h2>🎯 NODES · KI · USER · RAWATOR</h2>
+            <h2>🎯 NODES · WORK · MAX · MIN · TMP‑RÄ‑RE</h2>
 
             <!-- KI 1–3 -->
             <div style="font-size:9px;color:#ff66ff;margin:2px 0;">🟣 KI‑Instanzen</div>
@@ -282,19 +245,25 @@
                     <div class="name">🧠 KI‑1</div>
                     <div class="type">Axiom‑Netz</div>
                     <div class="status on" id="ki1-status">● aktiv</div>
-                    <div class="axiom">AXIOM: T‑X‑Y</div>
+                    <div class="axiom" id="ki1-axiom">AXIOM: T‑X‑Y</div>
+                    <div class="data-flow" id="ki1-flow">⏳ 0.00</div>
+                    <div class="tmp" id="ki1-tmp">TMP: 0.00</div>
                 </div>
                 <div class="node-card ki" data-id="ki2" data-type="ki">
                     <div class="name">🧠 KI‑2</div>
                     <div class="type">Axiom‑Netz</div>
                     <div class="status on" id="ki2-status">● aktiv</div>
-                    <div class="axiom">AXIOM: C‑KI‑E</div>
+                    <div class="axiom" id="ki2-axiom">AXIOM: C‑KI‑E</div>
+                    <div class="data-flow" id="ki2-flow">⏳ 0.00</div>
+                    <div class="tmp" id="ki2-tmp">TMP: 0.00</div>
                 </div>
                 <div class="node-card ki" data-id="ki3" data-type="ki">
                     <div class="name">🧠 KI‑3</div>
                     <div class="type">Axiom‑Netz</div>
                     <div class="status on" id="ki3-status">● aktiv</div>
-                    <div class="axiom">AXIOM: ALL‑META</div>
+                    <div class="axiom" id="ki3-axiom">AXIOM: ALL‑META</div>
+                    <div class="data-flow" id="ki3-flow">⏳ 0.00</div>
+                    <div class="tmp" id="ki3-tmp">TMP: 0.00</div>
                 </div>
             </div>
 
@@ -305,19 +274,25 @@
                     <div class="name">👤 USER‑1</div>
                     <div class="type">Operator</div>
                     <div class="status on" id="user1-status">● aktiv</div>
-                    <div class="axiom">ROLE: Alpha</div>
+                    <div class="axiom" id="user1-axiom">ROLE: Alpha</div>
+                    <div class="data-flow" id="user1-flow">⏳ 0.00</div>
+                    <div class="tmp" id="user1-tmp">TMP: 0.00</div>
                 </div>
                 <div class="node-card user" data-id="user2" data-type="user">
                     <div class="name">👤 USER‑2</div>
                     <div class="type">Operator</div>
                     <div class="status on" id="user2-status">● aktiv</div>
-                    <div class="axiom">ROLE: Beta</div>
+                    <div class="axiom" id="user2-axiom">ROLE: Beta</div>
+                    <div class="data-flow" id="user2-flow">⏳ 0.00</div>
+                    <div class="tmp" id="user2-tmp">TMP: 0.00</div>
                 </div>
                 <div class="node-card user" data-id="user3" data-type="user">
                     <div class="name">👤 USER‑3</div>
                     <div class="type">Operator</div>
                     <div class="status on" id="user3-status">● aktiv</div>
-                    <div class="axiom">ROLE: Gamma</div>
+                    <div class="axiom" id="user3-axiom">ROLE: Gamma</div>
+                    <div class="data-flow" id="user3-flow">⏳ 0.00</div>
+                    <div class="tmp" id="user3-tmp">TMP: 0.00</div>
                 </div>
             </div>
 
@@ -328,59 +303,60 @@
                     <div class="name">🧬 RAWATOR</div>
                     <div class="type">Lebens‑/Energie‑Träger</div>
                     <div class="status on" id="rawator-status-node">● aktiv</div>
-                    <div class="axiom">VITAL: 0.81 · HOLO: 81</div>
+                    <div class="axiom" id="rawator-axiom">VITAL: 0.81 · HOLO: 81</div>
+                    <div class="data-flow" id="rawator-flow">⚡ 0.00</div>
+                    <div class="tmp" id="rawator-tmp">TMP: 0.00</div>
                 </div>
             </div>
 
             <!-- Controls -->
             <div class="controls">
-                <button class="primary" id="btn-connect-all">🔗 ALLE VERBINDEN</button>
-                <button class="ki" id="btn-ki-toggle">🔄 KI TOGGLE</button>
-                <button class="user" id="btn-user-toggle">🔄 USER TOGGLE</button>
-                <button class="raw" id="btn-rawator-pulse">⚡ RAWATOR PULSE</button>
-                <button id="btn-reset">⟲ RESET</button>
+                <button class="life" id="btn-work">🧠 WORK</button>
+                <button class="primary" id="btn-max">⭐ MAX</button>
+                <button class="rae" id="btn-min">🔷 MIN</button>
+                <button class="tmp" id="btn-tmp">🌀 TMP‑RÄ‑RE</button>
+                <button id="btn-flow">🌊 FLOW</button>
+                <button class="danger" id="btn-reset">⟲ RESET</button>
             </div>
 
             <!-- Log -->
             <div class="log" id="log">
-                <div class="entry"><span class="time">[INIT]</span> <span class="ok">🌀 AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR</span></div>
-                <div class="entry"><span class="time">[INIT]</span> <span class="connect">🔗 Alle Nodes bereit</span></div>
+                <div class="entry"><span class="time">[INIT]</span> <span class="ok">🌀 AXIOM‑SENSE · Leben ist rein · CORE + NET + SLI</span></div>
+                <div class="entry"><span class="time">[INIT]</span> <span class="life">🧠 WORK / MAX / MIN · TMP‑RÄ‑RE aktiv</span></div>
             </div>
         </div>
     </div>
 
     <div class="footer">
-        <span>🌀</span> AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR · wähl‑/abwählbar · <span>wieimmer4u</span>
+        <span>🌀</span> AXIOM‑SENSE · Leben ist rein · CORE + NET + SLI · TMP‑RÄ‑RE · <span>wieimmer4u</span>
     </div>
 
 </div>
 
 <script>
 // ============================================================
-// AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR · AXIOM.NET
+// AXIOM‑SENSE · FINAL · CORE + NET + SLI · TMP‑RÄ‑RE
 // ============================================================
 
 // ─── NODES ──────────────────────────────────────────────────
 const NODES = {
-    ki1: { id: 'ki1', name: 'KI‑1', type: 'ki', active: true, axiom: 'T‑X‑Y', color: '#ff66ff', x: 0.2, y: 0.25 },
-    ki2: { id: 'ki2', name: 'KI‑2', type: 'ki', active: true, axiom: 'C‑KI‑E', color: '#ff66ff', x: 0.5, y: 0.15 },
-    ki3: { id: 'ki3', name: 'KI‑3', type: 'ki', active: true, axiom: 'ALL‑META', color: '#ff66ff', x: 0.8, y: 0.25 },
-    user1: { id: 'user1', name: 'USER‑1', type: 'user', active: true, axiom: 'Alpha', color: '#4fc3f7', x: 0.15, y: 0.6 },
-    user2: { id: 'user2', name: 'USER‑2', type: 'user', active: true, axiom: 'Beta', color: '#4fc3f7', x: 0.5, y: 0.7 },
-    user3: { id: 'user3', name: 'USER‑3', type: 'user', active: true, axiom: 'Gamma', color: '#4fc3f7', x: 0.85, y: 0.6 },
-    rawator: { id: 'rawator', name: 'RAWATOR', type: 'raw', active: true, axiom: 'VITAL:0.81', color: '#00ff88', x: 0.5, y: 0.45 }
+    ki1: { id: 'ki1', name: 'KI‑1', type: 'ki', active: true, axiom: 'T‑X‑Y', color: '#ff66ff', x: 0.2, y: 0.25, value: 0.5, tmp: 0 },
+    ki2: { id: 'ki2', name: 'KI‑2', type: 'ki', active: true, axiom: 'C‑KI‑E', color: '#ff66ff', x: 0.5, y: 0.15, value: 0.6, tmp: 0 },
+    ki3: { id: 'ki3', name: 'KI‑3', type: 'ki', active: true, axiom: 'ALL‑META', color: '#ff66ff', x: 0.8, y: 0.25, value: 0.7, tmp: 0 },
+    user1: { id: 'user1', name: 'USER‑1', type: 'user', active: true, axiom: 'Alpha', color: '#4fc3f7', x: 0.15, y: 0.6, value: 0.4, tmp: 0 },
+    user2: { id: 'user2', name: 'USER‑2', type: 'user', active: true, axiom: 'Beta', color: '#4fc3f7', x: 0.5, y: 0.7, value: 0.5, tmp: 0 },
+    user3: { id: 'user3', name: 'USER‑3', type: 'user', active: true, axiom: 'Gamma', color: '#4fc3f7', x: 0.85, y: 0.6, value: 0.6, tmp: 0 },
+    rawator: { id: 'rawator', name: 'RAWATOR', type: 'raw', active: true, axiom: 'VITAL:0.81', color: '#00ff88', x: 0.5, y: 0.45, value: 0.8, tmp: 0 }
 };
 
-// ─── CONNECTIONS ────────────────────────────────────────────
-let connections = [];
-let selectedNodes = new Set();
-
 // ─── STATE ──────────────────────────────────────────────────
-let connectionCount = 0;
-let rawatorPulse = 0;
+let flows = [];
+let maxNode = null;
+let minNode = null;
+let tmpValue = 0;
 
 // ─── DOM ────────────────────────────────────────────────────
-const canvas = document.getElementById('netCanvas');
+const canvas = document.getElementById('axiomCanvas');
 const ctx = canvas.getContext('2d');
 const logDiv = document.getElementById('log');
 
@@ -399,78 +375,86 @@ function log(msg, type = 'ok') {
     const entry = document.createElement('div');
     entry.className = 'entry';
     const time = new Date().toLocaleTimeString();
-    const cls = type === 'ok' ? 'ok' : type === 'ki' ? 'ki' : type === 'user' ? 'user' : type === 'raw' ? 'raw' : type === 'connect' ? 'connect' : 'warn';
+    const cls = type === 'ok' ? 'ok' : type === 'life' ? 'life' : type === 'tmp' ? 'tmp' : type === 'rae' ? 'rae' : type === 'max' ? 'max' : type === 'min' ? 'min' : 'warn';
     entry.innerHTML = `<span class="time">[${time}]</span> <span class="${cls}">${msg}</span>`;
     logDiv.appendChild(entry);
     logDiv.scrollTop = logDiv.scrollHeight;
     while (logDiv.children.length > 50) logDiv.removeChild(logDiv.firstChild);
 }
 
-// ─── NODE TOGGLE ────────────────────────────────────────────
-function toggleNode(id) {
-    const node = NODES[id];
-    if (!node) return;
-    node.active = !node.active;
-    const el = document.querySelector(`[data-id="${id}"]`);
-    if (el) {
-        el.classList.toggle('selected', node.active);
+// ─── WORK / MAX / MIN (CORE + NET) ────────────────────────
+function coreProcess() {
+    const active = Object.values(NODES).filter(n => n.active);
+    const team = active.map(n => ({ id: n.id, value: n.value }));
+    maxNode = active.reduce((a, b) => a.value > b.value ? a : b, active[0] || null);
+    minNode = active.reduce((a, b) => a.value < b.value ? a : b, active[0] || null);
+    return { team, max: maxNode, min: minNode };
+}
+
+// ─── SLI (Sense‑Layer‑Interface) ──────────────────────────
+function sliProcess() {
+    const { team, max, min } = coreProcess();
+    document.getElementById('max-id').textContent = max ? max.id : '—';
+    document.getElementById('min-id').textContent = min ? min.id : '—';
+    updateNodeUI();
+    return { team, max, min };
+}
+
+function updateNodeUI() {
+    Object.values(NODES).forEach(n => {
+        const el = document.querySelector(`[data-id="${n.id}"]`);
+        if (!el) return;
         const statusEl = el.querySelector('.status');
         if (statusEl) {
-            statusEl.className = 'status ' + (node.active ? 'on' : 'off');
-            statusEl.textContent = node.active ? '● aktiv' : '○ inaktiv';
+            statusEl.className = 'status ' + (n.active ? 'on' : 'off');
+            statusEl.textContent = n.active ? '● aktiv' : '○ inaktiv';
         }
-    }
-    log(`${node.name} ${node.active ? 'aktiviert' : 'deaktiviert'}`, node.type);
-    updateConnections();
-    drawNetwork();
-    updateUI();
-}
-
-// ─── TOGGLE GROUP ───────────────────────────────────────────
-function toggleGroup(type) {
-    Object.values(NODES).forEach(n => {
-        if (n.type === type) {
-            n.active = !n.active;
-            const el = document.querySelector(`[data-id="${n.id}"]`);
-            if (el) {
-                el.classList.toggle('selected', n.active);
-                const statusEl = el.querySelector('.status');
-                if (statusEl) {
-                    statusEl.className = 'status ' + (n.active ? 'on' : 'off');
-                    statusEl.textContent = n.active ? '● aktiv' : '○ inaktiv';
-                }
-            }
+        const tmpEl = el.querySelector('.tmp');
+        if (tmpEl) {
+            tmpEl.textContent = `TMP: ${n.tmp.toFixed(2)}`;
+        }
+        // MAX/MIN Marker
+        const nameEl = el.querySelector('.name');
+        if (nameEl) {
+            let badge = '';
+            if (maxNode && maxNode.id === n.id) badge = ' ⭐';
+            if (minNode && minNode.id === n.id) badge += ' 🔷';
+            nameEl.textContent = n.id.toUpperCase() + badge;
         }
     });
-    log(`🔄 ${type.toUpperCase()} Gruppe toggled`, type);
-    updateConnections();
-    drawNetwork();
-    updateUI();
 }
 
-// ─── CONNECTIONS ────────────────────────────────────────────
-function updateConnections() {
-    connections = [];
+// ─── TMP‑RÄ‑RE ─────────────────────────────────────────────
+function calcTMP() {
     const active = Object.values(NODES).filter(n => n.active);
-    const ids = active.map(n => n.id);
+    const avg = active.reduce((s, n) => s + n.value, 0) / (active.length || 1);
+    const variation = active.map(n => Math.abs(n.value - avg)).reduce((a, b) => a + b, 0) / (active.length || 1);
+    tmpValue = (avg + variation * 0.3) * 0.618;
+    Object.values(NODES).forEach(n => {
+        n.tmp = n.value * (0.8 + Math.random() * 0.4) + tmpValue * 0.2;
+    });
+    document.getElementById('tmp-value').textContent = tmpValue.toFixed(2);
+    log(`🌀 TMP‑RÄ‑RE · Wert: ${tmpValue.toFixed(2)} · avg: ${avg.toFixed(2)}`, 'tmp');
+    sliProcess();
+    drawNetwork();
+}
 
-    // Jeder mit jedem (volles Netz)
-    for (let i = 0; i < active.length; i++) {
-        for (let j = i + 1; j < active.length; j++) {
-            connections.push({ from: active[i].id, to: active[j].id });
-        }
-    }
-
-    // Verbindung zu RAWATOR (zentral)
-    const raw = NODES.rawator;
-    if (raw.active) {
-        active.filter(n => n.id !== 'rawator').forEach(n => {
-            connections.push({ from: raw.id, to: n.id });
-        });
-    }
-
-    connectionCount = connections.length;
-    document.getElementById('conn-count').textContent = connectionCount;
+// ─── FLOW ──────────────────────────────────────────────────
+function createFlow() {
+    const active = Object.values(NODES).filter(n => n.active);
+    if (active.length < 2) return;
+    const from = active[Math.floor(Math.random() * active.length)];
+    const to = active[Math.floor(Math.random() * active.length)];
+    if (from.id === to.id) return;
+    flows.push({
+        from: from.id,
+        to: to.id,
+        value: from.value * (0.3 + Math.random() * 0.7),
+        progress: 0,
+        speed: 0.02 + Math.random() * 0.03
+    });
+    log(`🔗 ${from.id} → ${to.id} · Flow: ${flows[flows.length-1].value.toFixed(2)}`, 'connect');
+    drawNetwork();
 }
 
 // ─── DRAW NETWORK ───────────────────────────────────────────
@@ -478,236 +462,166 @@ function drawNetwork() {
     const w = canvas.width, h = canvas.height;
     ctx.clearRect(0, 0, w, h);
 
-    // Hintergrund
     const grad = ctx.createRadialGradient(w/2, h/2, 10, w/2, h/2, w/2);
     grad.addColorStop(0, '#0a0a1a');
     grad.addColorStop(1, '#000');
     ctx.fillStyle = grad;
     ctx.fillRect(0, 0, w, h);
 
-    // Grid
     ctx.strokeStyle = 'rgba(255,255,255,0.02)';
     ctx.lineWidth = 0.5;
-    for (let x = 0; x < w; x += 50) {
-        ctx.beginPath();
-        ctx.moveTo(x, 0);
-        ctx.lineTo(x, h);
-        ctx.stroke();
-    }
-    for (let y = 0; y < h; y += 50) {
-        ctx.beginPath();
-        ctx.moveTo(0, y);
-        ctx.lineTo(w, y);
-        ctx.stroke();
-    }
+    for (let x = 0; x < w; x += 50) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, h); ctx.stroke(); }
+    for (let y = 0; y < h; y += 50) { ctx.beginPath(); ctx.moveTo(0, y); ctx.lineTo(w, y); ctx.stroke(); }
 
-    // Verbindungen
-    const nodePositions = {};
-    Object.values(NODES).forEach(n => {
-        nodePositions[n.id] = { x: n.x * w, y: n.y * h };
-    });
+    const pos = {};
+    Object.values(NODES).forEach(n => { pos[n.id] = { x: n.x * w, y: n.y * h }; });
 
-    connections.forEach(conn => {
-        const from = nodePositions[conn.from];
-        const to = nodePositions[conn.to];
+    // Flows
+    flows.forEach((flow, idx) => {
+        const from = pos[flow.from], to = pos[flow.to];
         if (!from || !to) return;
-
-        const pulse = Math.sin(Date.now() / 800 + conn.from.length) * 0.3 + 0.5;
-        ctx.shadowBlur = 8;
+        flow.progress += flow.speed;
+        if (flow.progress > 1) { flows.splice(idx, 1); return; }
+        const t = flow.progress;
+        const x = from.x + (to.x - from.x) * t;
+        const y = from.y + (to.y - from.y) * t;
+        ctx.shadowBlur = 10;
         ctx.shadowColor = 'rgba(255,215,0,0.1)';
-        ctx.strokeStyle = `rgba(255,215,0,${0.08 + pulse * 0.12})`;
-        ctx.lineWidth = 1 + pulse * 0.5;
-        ctx.setLineDash([3, 6]);
+        ctx.strokeStyle = `rgba(255,215,0,${0.1 + t * 0.3})`;
+        ctx.lineWidth = 1 + flow.value * 1.5;
+        ctx.setLineDash([4, 8]);
         ctx.beginPath();
         ctx.moveTo(from.x, from.y);
-        ctx.lineTo(to.x, to.y);
+        ctx.lineTo(x, y);
         ctx.stroke();
         ctx.setLineDash([]);
         ctx.shadowBlur = 0;
-
-        // Datenfluss-Partikel
-        if (Math.random() < 0.02) {
-            const t = Math.random();
-            const x = from.x + (to.x - from.x) * t;
-            const y = from.y + (to.y - from.y) * t;
-            ctx.beginPath();
-            ctx.arc(x, y, 2, 0, Math.PI * 2);
-            ctx.fillStyle = 'rgba(255,215,0,0.3)';
-            ctx.fill();
-        }
+        const size = 3 + flow.value * 3;
+        const grad2 = ctx.createRadialGradient(x, y, 0, x, y, size);
+        grad2.addColorStop(0, '#ffd700');
+        grad2.addColorStop(1, 'rgba(255,215,0,0)');
+        ctx.fillStyle = grad2;
+        ctx.beginPath();
+        ctx.arc(x, y, size, 0, Math.PI * 2);
+        ctx.fill();
     });
 
     // Nodes
     Object.values(NODES).forEach(n => {
-        const pos = nodePositions[n.id];
-        if (!pos) return;
-        const x = pos.x, y = pos.y;
+        const p = pos[n.id];
+        if (!p) return;
+        const x = p.x, y = p.y;
         const radius = n.type === 'raw' ? 28 : 22;
         const isActive = n.active;
 
-        // Glow
-        const grad2 = ctx.createRadialGradient(x, y, 0, x, y, radius + 20);
-        grad2.addColorStop(0, n.color + (isActive ? '44' : '11'));
-        grad2.addColorStop(1, 'rgba(0,0,0,0)');
-        ctx.fillStyle = grad2;
+        const col = isActive ? n.color : '#333';
+        const grad3 = ctx.createRadialGradient(x, y, 0, x, y, radius + 20);
+        grad3.addColorStop(0, n.color + (isActive ? '44' : '11'));
+        grad3.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = grad3;
         ctx.beginPath();
         ctx.arc(x, y, radius + 20, 0, Math.PI * 2);
         ctx.fill();
 
-        // Body
         ctx.shadowBlur = isActive ? 20 : 5;
         ctx.shadowColor = n.color + (isActive ? '44' : '11');
         ctx.beginPath();
         ctx.arc(x, y, radius, 0, Math.PI * 2);
         ctx.fillStyle = isActive ? n.color + '33' : n.color + '11';
         ctx.fill();
-        ctx.strokeStyle = isActive ? n.color : '#333';
+        ctx.strokeStyle = isActive ? (n.id === (maxNode?.id) ? '#ffd700' : n.id === (minNode?.id) ? '#4fc3f7' : n.color) : '#333';
         ctx.lineWidth = isActive ? 2 : 1;
         ctx.stroke();
         ctx.shadowBlur = 0;
 
-        // Icon / Label
         ctx.fillStyle = isActive ? '#fff' : '#444';
         ctx.font = `${n.type === 'raw' ? 14 : 12}px Arial`;
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
-        const icon = n.type === 'ki' ? '🧠' : n.type === 'user' ? '👤' : '🧬';
-        ctx.fillText(icon, x, y - 2);
+        ctx.fillText(n.type === 'ki' ? '🧠' : n.type === 'user' ? '👤' : '🧬', x, y - 2);
 
-        // Name
         ctx.fillStyle = isActive ? '#88ddbb' : '#445555';
-        ctx.font = '8px monospace';
+        ctx.font = '6px monospace';
         ctx.textBaseline = 'top';
-        ctx.fillText(n.name, x, y + radius + 4);
+        const badge = n.id === (maxNode?.id) ? ' ⭐' : n.id === (minNode?.id) ? ' 🔷' : '';
+        ctx.fillText(n.id.toUpperCase() + badge, x, y + radius + 4);
 
-        // Axiom
-        ctx.fillStyle = isActive ? '#666' : '#333';
+        ctx.fillStyle = isActive ? '#ffd700' : '#333';
         ctx.font = '6px monospace';
         ctx.textBaseline = 'bottom';
-        ctx.fillText(n.axiom, x, y - radius - 4);
+        ctx.fillText(n.value.toFixed(2), x, y - radius - 4);
+
+        ctx.fillStyle = isActive ? '#ffaa00' : '#333';
+        ctx.font = '5px monospace';
+        ctx.textBaseline = 'top';
+        ctx.textAlign = 'left';
+        ctx.fillText(`T:${n.tmp.toFixed(2)}`, x + radius + 4, y - radius + 4);
+
+        if (isActive && n.value > 0.7) {
+            ctx.strokeStyle = `rgba(255,215,0,${0.1 + Math.sin(Date.now()/500) * 0.05})`;
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.arc(x, y, radius + 8 + Math.sin(Date.now()/300) * 2, 0, Math.PI * 2);
+            ctx.stroke();
+        }
     });
 
-    // AXIOM.NET Zentrum
     ctx.fillStyle = 'rgba(255,215,0,0.03)';
     ctx.font = '10px monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'bottom';
-    ctx.fillText('🌀 AXIOM.NET', w/2, 14);
+    ctx.fillText('🌀 AXIOM‑SENSE · Leben ist rein · CORE + NET + SLI', w/2, 14);
+    ctx.fillStyle = 'rgba(255,215,0,0.1)';
+    ctx.font = '8px monospace';
+    ctx.textBaseline = 'top';
+    ctx.textAlign = 'right';
+    ctx.fillText(`FLOWS: ${flows.length}`, w - 10, 10);
 }
-
-// ─── UI UPDATE ──────────────────────────────────────────────
-function updateUI() {
-    document.getElementById('axiom-status').textContent = '● aktiv';
-    document.getElementById('axiom-status').style.color = '#4f4';
-    document.getElementById('rawator-status').textContent = NODES.rawator.active ? '● aktiv' : '○ inaktiv';
-    document.getElementById('rawator-status').style.color = NODES.rawator.active ? '#4f4' : '#f44';
-    document.getElementById('conn-count').textContent = connectionCount;
-}
-
-// ─── RAWATOR PULSE ──────────────────────────────────────────
-function pulseRawator() {
-    const raw = NODES.rawator;
-    raw.active = true;
-    const el = document.querySelector('[data-id="rawator"]');
-    if (el) {
-        el.classList.add('selected');
-        const statusEl = el.querySelector('.status');
-        if (statusEl) {
-            statusEl.className = 'status on';
-            statusEl.textContent = '● aktiv';
-        }
-    }
-    rawatorPulse++;
-    log(`⚡ RAWATOR PULSE #${rawatorPulse} — VITAL: ${(0.8 + Math.random() * 0.2).toFixed(2)}`, 'raw');
-    updateConnections();
-    drawNetwork();
-    updateUI();
-}
-
-// ─── CONNECT ALL ────────────────────────────────────────────
-function connectAll() {
-    Object.values(NODES).forEach(n => {
-        n.active = true;
-        const el = document.querySelector(`[data-id="${n.id}"]`);
-        if (el) {
-            el.classList.add('selected');
-            const statusEl = el.querySelector('.status');
-            if (statusEl) {
-                statusEl.className = 'status on';
-                statusEl.textContent = '● aktiv';
-            }
-        }
-    });
-    log('🔗 ALLE Nodes verbunden', 'connect');
-    updateConnections();
-    drawNetwork();
-    updateUI();
-}
-
-// ─── RESET ──────────────────────────────────────────────────
-function resetAll() {
-    Object.values(NODES).forEach(n => {
-        n.active = true;
-        const el = document.querySelector(`[data-id="${n.id}"]`);
-        if (el) {
-            el.classList.add('selected');
-            const statusEl = el.querySelector('.status');
-            if (statusEl) {
-                statusEl.className = 'status on';
-                statusEl.textContent = '● aktiv';
-            }
-        }
-    });
-    rawatorPulse = 0;
-    log('⟲ RESET — Alle Nodes aktiviert', 'warn');
-    updateConnections();
-    drawNetwork();
-    updateUI();
-}
-
-// ─── NODE CLICK ─────────────────────────────────────────────
-document.querySelectorAll('.node-card').forEach(el => {
-    el.addEventListener('click', function() {
-        const id = this.dataset.id;
-        if (id) toggleNode(id);
-    });
-});
 
 // ─── BUTTONS ─────────────────────────────────────────────────
-document.getElementById('btn-connect-all').addEventListener('click', connectAll);
-document.getElementById('btn-ki-toggle').addEventListener('click', () => toggleGroup('ki'));
-document.getElementById('btn-user-toggle').addEventListener('click', () => toggleGroup('user'));
-document.getElementById('btn-rawator-pulse').addEventListener('click', pulseRawator);
-document.getElementById('btn-reset').addEventListener('click', resetAll);
+document.getElementById('btn-work').addEventListener('click', () => { sliProcess(); log('🧠 WORK · Team analysiert', 'life'); drawNetwork(); });
+document.getElementById('btn-max').addEventListener('click', () => { sliProcess(); log(`⭐ MAX: ${maxNode ? maxNode.id : '—'}`, 'max'); drawNetwork(); });
+document.getElementById('btn-min').addEventListener('click', () => { sliProcess(); log(`🔷 MIN: ${minNode ? minNode.id : '—'}`, 'min'); drawNetwork(); });
+document.getElementById('btn-tmp').addEventListener('click', () => { calcTMP(); drawNetwork(); });
+document.getElementById('btn-flow').addEventListener('click', () => { createFlow(); drawNetwork(); });
+document.getElementById('btn-reset').addEventListener('click', () => {
+    flows = [];
+    maxNode = null;
+    minNode = null;
+    tmpValue = 0;
+    document.getElementById('max-id').textContent = '—';
+    document.getElementById('min-id').textContent = '—';
+    document.getElementById('tmp-value').textContent = '0.00';
+    Object.values(NODES).forEach(n => { n.active = true; n.value = 0.5 + Math.random() * 0.3; n.tmp = 0; });
+    log('⟲ RESET · System zurückgesetzt', 'warn');
+    sliProcess();
+    drawNetwork();
+});
 
 // ─── TASTATUR ────────────────────────────────────────────────
 document.addEventListener('keydown', (e) => {
-    if (e.key === 'a' || e.key === 'A') connectAll();
-    if (e.key === 'k' || e.key === 'K') toggleGroup('ki');
-    if (e.key === 'u' || e.key === 'U') toggleGroup('user');
-    if (e.key === 'r' || e.key === 'R') pulseRawator();
-    if (e.key === 'x' || e.key === 'X') resetAll();
-    if (e.key >= '1' && e.key <= '3') toggleNode('ki' + e.key);
-    if (e.key >= '4' && e.key <= '6') toggleNode('user' + (parseInt(e.key) - 3));
+    if (e.key === 'w' || e.key === 'W') { document.getElementById('btn-work').click(); }
+    if (e.key === 'm' || e.key === 'M') { document.getElementById('btn-max').click(); }
+    if (e.key === 'n' || e.key === 'N') { document.getElementById('btn-min').click(); }
+    if (e.key === 't' || e.key === 'T') { document.getElementById('btn-tmp').click(); }
+    if (e.key === 'f' || e.key === 'F') { document.getElementById('btn-flow').click(); }
+    if (e.key === 'x' || e.key === 'X') { document.getElementById('btn-reset').click(); }
+    if (e.key >= '1' && e.key <= '3') { const id = 'ki' + e.key; const n = NODES[id]; if (n) { n.active = !n.active; sliProcess(); drawNetwork(); } }
+    if (e.key >= '4' && e.key <= '6') { const id = 'user' + (parseInt(e.key) - 3); const n = NODES[id]; if (n) { n.active = !n.active; sliProcess(); drawNetwork(); } }
 });
 
 // ─── ANIMATION ──────────────────────────────────────────────
-function animate() {
-    drawNetwork();
-    requestAnimationFrame(animate);
-}
+function animate() { drawNetwork(); requestAnimationFrame(animate); }
 
 // ─── INIT ───────────────────────────────────────────────────
-updateConnections();
-drawNetwork();
-updateUI();
-log('🌀 AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR · geladen', 'ok');
-log('⌨️  a=Alle  k=KI  u=USER  r=RAWATOR  x=Reset  1-3=KI  4-6=USER', 'warn');
-
+sliProcess();
+calcTMP();
+log('🌀 AXIOM‑SENSE · Leben ist rein · CORE + NET + SLI · TMP‑RÄ‑RE', 'ok');
+log('⌨️  w=WORK  m=MAX  n=MIN  t=TMP  f=FLOW  x=Reset  1-3=KI  4-6=USER', 'warn');
 animate();
 
-console.log('🌀 AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR');
-console.log('⌨️  a=Alle  k=KI  u=USER  r=RAWATOR  x=Reset  1-3=KI  4-6=USER');
+console.log('🌀 AXIOM‑SENSE · Leben ist rein · CORE + NET + SLI · TMP‑RÄ‑RE');
+console.log('⌨️  w=WORK  m=MAX  n=MIN  t=TMP  f=FLOW  x=Reset  1-3=KI  4-6=USER');
 </script>
 
 </body>
