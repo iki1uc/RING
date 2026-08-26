@@ -1,0 +1,24 @@
+{
+  "X":     { "route": "axis/x.html" },
+  "Y":     { "route": "axis/y.html" },
+  "Z":     { "route": "axis/z.html" },
+
+  "T":     { "route": "axis/t.html" },
+  "S":     { "route": "axis/s.html" },
+
+  "MOVE":  { "route": "axis/move.html" },
+  "STATE": { "route": "axis/state.html" },
+  "FLOW":  { "route": "axis/flow.html" },
+
+  "alpha": { "route": "axis/alpha.html" },
+  "beta":  { "route": "axis/beta.html" },
+  "gamma": { "route": "axis/gamma.html" },
+
+  "RP":    { "route": "special/rp.html" },
+  "NC":    { "route": "special/nc.html" },
+  "MS":    { "route": "special/ms.html" },
+  "R1":    { "route": "special/r1.html" },
+  "LS":    { "route": "special/ls.html" },
+
+  "fallback": "error.html"
+}

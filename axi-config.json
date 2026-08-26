@@ -1,0 +1,24 @@
+{
+  "version": "1.2",
+  "system": "RESPO-AXI-LINK.NET",
+  "mode": "RAW",
+  "default-axis": "X",
+
+  "routing": {
+    "enable-weiser": true,
+    "enable-lage": true,
+    "enable-link": true,
+    "fallback": "error.html"
+  },
+
+  "visual": {
+    "enable": true,
+    "depth-factor": 1.0,
+    "color-mode": "group-based"
+  },
+
+  "log": {
+    "enabled": true,
+    "level": "debug"
+  }
+}

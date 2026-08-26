@@ -1,0 +1,9 @@
+{
+  "x":   { "slot": 1, "group": "A", "depth": 0 },
+  "y":   { "slot": 2, "group": "A", "depth": 0 },
+  "z":   { "slot": 3, "group": "A", "depth": 0 },
+  "t":   { "slot": 4, "group": "B", "depth": 1 },
+  "s":   { "slot": 5, "group": "B", "depth": 1 },
+  "move": { "slot": 6, "group": "C", "depth": 2 },
+  "state": { "slot": 7, "group": "C", "depth": 2 }
+}
