@@ -1,24 +1,41 @@
 /* ============================================================
-   AXI-LINK · RESPO-AXI-LINK.NET
-   Verbindet Achsen, Lage, Weiser und Router-Hook
+   AXI-LINK PRO · RESPO-AXI-LINK.NET
+   Verbindet Achsen, Lage, Weiser, Config und Router-Hook
+   Zeigt seine Funktionen selbst — keine Fragen nötig.
    ============================================================ */
 
-async function axiLink(axis) {
-    const config = await fetch("axi-config.json").then(r => r.json());
-    const lage   = await fetch("axi-lage.json").then(r => r.json());
-    const weiser = await fetch("axi-weiser.json").then(r => r.json());
+export const AXI = {
 
-    const info = {
-        axis: axis,
-        slot: lage[axis]?.slot,
-        depth: lage[axis]?.depth,
-        group: lage[axis]?.group,
-        route: weiser[axis]?.route || weiser.fallback,
-        mode: config.mode
-    };
+    async load(file) {
+        try {
+            return await fetch(file).then(r => r.json());
+        } catch (err) {
+            return { error: `AXI-LOAD-ERROR: ${file}` };
+        }
+    },
 
-    console.log("AXI-LINK:", info);
-    return info;
-}
+    async link(axis) {
+        const config = await this.load("axi-config.json");
+        const lage   = await this.load("axi-lage.json");
+        const weiser = await this.load("axi-weiser.json");
 
-export { axiLink };
+        const info = {
+            axis,
+            slot: lage[axis]?.slot,
+            depth: lage[axis]?.depth,
+            group: lage[axis]?.group,
+            route: weiser[axis]?.route || weiser.fallback,
+            mode: config.mode,
+            reveal: `AXI(${axis}) · SLOT(${lage[axis]?.slot}) · ROUTE(${weiser[axis]?.route}) · MODE(${config.mode})`
+        };
+
+        console.log("AXI-LINK-PRO:", info);
+        return info;
+    },
+
+    async hook(axis) {
+        const data = await this.link(axis);
+        console.log("ROUTER-HOOK:", data.reveal);
+        return data;
+    }
+};
