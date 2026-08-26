@@ -1,0 +1,14 @@
+// NC/nc.work
+import { NC } from "./nc.js";
+
+export function NC_WORK(run = 1, mode = "seq") {
+    const nc = NC(run, mode);
+
+    return {
+        run: nc.run,
+        mode: nc.mode,
+        work: nc.core.tmp,
+        line: nc.pipe.line,
+        bonus: nc.sli.bonus
+    };
+}
