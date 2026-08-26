@@ -1,0 +1,22 @@
+/* NC/nc.css */
+
+.nc-run {
+    font-weight: bold;
+    color: #00e0ff;
+}
+
+.nc-bonus {
+    color: #ff0066;
+    text-shadow: 0 0 8px #ff0066;
+}
+
+.nc-line {
+    border-left: 4px solid #00e0ff;
+    padding-left: 12px;
+}
+
+.nc-3x3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+}
