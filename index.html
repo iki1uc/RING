@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🔗 REAL‑CONNECT · 2 Rechner · Alle Optionen · Live‑Erfahrung</title>
+    <title>🌀 AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR · AXIOM.NET</title>
 
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -28,7 +28,7 @@
             margin-bottom: 16px;
         }
         .header h1 {
-            font-size: 28px;
+            font-size: 26px;
             color: #ffd700;
             letter-spacing: 6px;
             text-shadow: 0 0 30px rgba(255, 215, 0, 0.2);
@@ -39,13 +39,16 @@
             letter-spacing: 3px;
         }
         .header .sub span { color: #88ddbb; }
+        .header .sub .ki { color: #ff66ff; }
+        .header .sub .user { color: #4fc3f7; }
+        .header .sub .raw { color: #00ff88; }
 
         .grid {
             display: grid;
-            grid-template-columns: 2fr 1fr;
+            grid-template-columns: 3fr 1.2fr;
             gap: 16px;
         }
-        @media (max-width: 900px) { .grid { grid-template-columns: 1fr; } }
+        @media (max-width: 1000px) { .grid { grid-template-columns: 1fr; } }
 
         .panel {
             background: rgba(10,10,20,0.4);
@@ -56,66 +59,78 @@
         }
         .panel h2 {
             color: #ffd700;
-            font-size: 14px;
+            font-size: 13px;
             border-bottom: 1px solid rgba(255,255,255,0.02);
             padding-bottom: 6px;
             margin-bottom: 8px;
         }
 
-        .rechner-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin-bottom: 12px;
+        .canvas-wrap {
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
         }
-        .rechner-card {
+        #netCanvas {
+            width: 100%;
+            height: auto;
+            aspect-ratio: 16/10;
+            display: block;
+            background: #0a0a12;
+            border-radius: 8px;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        .node-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 6px;
+            margin: 6px 0;
+        }
+        .node-card {
             background: #0e0e1a;
             border: 1px solid #1a1a2a;
             border-radius: 8px;
-            padding: 10px;
+            padding: 8px;
             text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
         }
-        .rechner-card .name {
-            color: #ffd700;
-            font-size: 16px;
+        .node-card:hover {
+            border-color: #ffd700;
+            background: rgba(255,215,0,0.03);
+        }
+        .node-card .name {
+            font-size: 13px;
             font-weight: bold;
         }
-        .rechner-card .status {
-            font-size: 12px;
-            margin: 4px 0;
+        .node-card .type {
+            font-size: 9px;
+            color: #666;
         }
-        .rechner-card .status.online { color: #4f4; }
-        .rechner-card .status.offline { color: #f44; }
-        .rechner-card .status.sync { color: #4fc3f7; }
-        .rechner-card .values {
+        .node-card .status {
             font-size: 10px;
-            color: #666;
-            margin-top: 4px;
+            margin-top: 2px;
         }
-        .rechner-card .values span { color: #88ddbb; }
-
-        .connect-bar {
-            background: #0e0e1a;
-            border: 1px solid #1a1a2a;
-            border-radius: 6px;
-            padding: 8px 12px;
-            margin: 6px 0;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 11px;
-            color: #666;
+        .node-card .status.on { color: #4f4; }
+        .node-card .status.off { color: #f44; }
+        .node-card .status.wait { color: #ffd700; }
+        .node-card .axiom {
+            font-size: 8px;
+            color: #445555;
+            margin-top: 2px;
         }
-        .connect-bar .wert {
-            color: #00ffff;
-            font-weight: bold;
-            font-size: 14px;
+        .node-card.selected {
+            border-color: #ffd700;
+            background: rgba(255,215,0,0.06);
         }
-        .connect-bar .label { color: #ffd700; }
+        .node-card.ki { border-left: 3px solid #ff66ff; }
+        .node-card.user { border-left: 3px solid #4fc3f7; }
+        .node-card.raw { border-left: 3px solid #00ff88; }
 
         .controls {
             display: flex;
-            gap: 6px;
+            gap: 4px;
             flex-wrap: wrap;
             margin: 6px 0;
         }
@@ -123,11 +138,11 @@
             background: #111;
             color: #9cf;
             border: 1px solid #333;
-            padding: 6px 14px;
+            padding: 5px 14px;
             border-radius: 6px;
             cursor: pointer;
             font-family: inherit;
-            font-size: 10px;
+            font-size: 9px;
             transition: all 0.2s;
         }
         button:hover {
@@ -142,73 +157,71 @@
             background: #ffd700;
             color: #000;
         }
-        button.connect {
-            border-color: #00ffff;
-            color: #00ffff;
+        button.ki {
+            border-color: #ff66ff;
+            color: #ff66ff;
         }
-        button.connect:hover {
-            background: #00ffff;
+        button.ki:hover {
+            background: #ff66ff;
             color: #000;
         }
-        button.sync {
+        button.user {
             border-color: #4fc3f7;
             color: #4fc3f7;
         }
-        button.sync:hover {
+        button.user:hover {
             background: #4fc3f7;
             color: #000;
         }
-        button.danger {
-            border-color: #f44;
-            color: #f44;
+        button.raw {
+            border-color: #00ff88;
+            color: #00ff88;
         }
-        button.danger:hover {
-            background: #f44;
+        button.raw:hover {
+            background: #00ff88;
             color: #000;
         }
 
         .log {
             background: rgba(0,0,0,0.3);
-            border-radius: 8px;
-            padding: 8px;
-            font-size: 10px;
+            border-radius: 6px;
+            padding: 6px 8px;
+            font-size: 8px;
             color: #88ddbb;
-            max-height: 120px;
+            max-height: 80px;
             overflow-y: auto;
             font-family: monospace;
             line-height: 1.4;
             border: 1px solid rgba(255,255,255,0.02);
-            margin-top: 6px;
+            margin-top: 4px;
         }
         .log .entry { padding: 1px 0; border-bottom: 1px solid rgba(255,255,255,0.02); }
         .log .time { color: #445555; }
         .log .ok { color: #4f4; }
         .log .warn { color: #ffaa00; }
-        .log .connect { color: #00ffff; }
-        .log .sync { color: #4fc3f7; }
-        .log .error { color: #f44; }
-        .log .data { color: #ffd700; }
+        .log .ki { color: #ff66ff; }
+        .log .user { color: #4fc3f7; }
+        .log .raw { color: #00ff88; }
+        .log .connect { color: #ffd700; }
 
-        .canvas-wrap {
-            background: rgba(10,10,20,0.4);
-            border: 1px solid rgba(255,255,255,0.02);
-            border-radius: 16px;
-            padding: 12px;
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 10px;
+            margin-top: 6px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 6px;
+            font-size: 9px;
+            color: #445555;
+            flex-wrap: wrap;
+            gap: 4px;
         }
-        #connectCanvas {
-            width: 100%;
-            height: auto;
-            aspect-ratio: 16/10;
-            background: #0a0a12;
-            border-radius: 12px;
-            border: 1px solid rgba(255,255,255,0.02);
-            display: block;
-        }
+        .status-bar span { color: #88ddbb; }
 
         .footer {
             text-align: center;
-            margin-top: 16px;
-            padding: 10px;
+            margin-top: 12px;
+            padding: 8px;
             color: #222;
             font-size: 8px;
             letter-spacing: 2px;
@@ -221,426 +234,480 @@
 
 <div class="container">
 
-    <!-- ===== HEADER ===== -->
+    <!-- HEADER -->
     <div class="header">
-        <h1>🔗 REAL‑CONNECT · 2 RECHNER · ALLE OPTIONEN</h1>
-        <div class="sub">Ping · Sync · Data‑Flow · RESPO · AXIOM · RAWATOR · HOLO · BOOT · <span>wieimmer4u</span></div>
+        <h1>🌀 AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR</h1>
+        <div class="sub">
+            <span class="ki">KI</span> ·
+            <span class="user">USER</span> ·
+            <span class="raw">RAWATOR</span> ·
+            <span>AXIOM.NET</span> ·
+            <span>wähl‑/abwählbar</span>
+        </div>
     </div>
 
     <div class="grid">
 
-        <!-- ===== LINKER BEREICH: CANVAS ===== -->
-        <div class="canvas-wrap">
-            <h2>🌀 NETZWERK‑VISUALISIERUNG · 2 RECHNER</h2>
-            <canvas id="connectCanvas"></canvas>
+        <!-- CANVAS -->
+        <div class="panel">
+            <h2>🌀 NETZWERK‑VISUALISIERUNG · AXIOM.NET</h2>
+            <div class="canvas-wrap">
+                <canvas id="netCanvas"></canvas>
+            </div>
             <div style="display:flex;gap:12px;margin-top:6px;font-size:9px;color:#445555;flex-wrap:wrap;">
-                <span>🟩 Rechner 1 (online)</span>
-                <span>🟦 Rechner 2 (online)</span>
-                <span>🟡 Verbindung aktiv</span>
-                <span style="color:#ffd700;">⚡ Datenfluss</span>
+                <span style="color:#ff66ff;">🟣 KI</span>
+                <span style="color:#4fc3f7;">🔵 USER</span>
+                <span style="color:#00ff88;">🟢 RAWATOR</span>
+                <span style="color:#ffd700;">🔗 Verbindung</span>
+                <span style="color:#4f4;">● aktiv</span>
+                <span style="color:#f44;">● inaktiv</span>
+            </div>
+
+            <!-- Status-Bar -->
+            <div class="status-bar">
+                <span>🌀 AXIOM.NET: <span id="axiom-status">● aktiv</span></span>
+                <span>🔗 Verbindungen: <span id="conn-count">0</span></span>
+                <span>⚡ RAWATOR: <span id="rawator-status">● bereit</span></span>
             </div>
         </div>
 
-        <!-- ===== RECHTE BEREICH: PANEL ===== -->
+        <!-- PANEL: NODES + CONTROLS -->
         <div class="panel">
-            <h2>⚙️ CONNECT‑CENTER · 2 RECHNER</h2>
+            <h2>🎯 NODES · KI · USER · RAWATOR</h2>
 
-            <!-- 2 Rechner -->
-            <div class="rechner-grid">
-                <div class="rechner-card" id="rechner1">
-                    <div class="name">🟩 RECHNER 1</div>
-                    <div class="status online" id="status1">● online</div>
-                    <div class="values">
-                        TMP: <span id="r1-tmp">1.00</span> |
-                        RA: <span id="r1-ra">1.00</span> |
-                        RE: <span id="r1-re">1.00</span>
-                    </div>
+            <!-- KI 1–3 -->
+            <div style="font-size:9px;color:#ff66ff;margin:2px 0;">🟣 KI‑Instanzen</div>
+            <div class="node-grid" id="ki-grid">
+                <div class="node-card ki" data-id="ki1" data-type="ki">
+                    <div class="name">🧠 KI‑1</div>
+                    <div class="type">Axiom‑Netz</div>
+                    <div class="status on" id="ki1-status">● aktiv</div>
+                    <div class="axiom">AXIOM: T‑X‑Y</div>
                 </div>
-                <div class="rechner-card" id="rechner2">
-                    <div class="name">🟦 RECHNER 2</div>
-                    <div class="status online" id="status2">● online</div>
-                    <div class="values">
-                        TMP: <span id="r2-tmp">1.00</span> |
-                        RA: <span id="r2-ra">1.00</span> |
-                        RE: <span id="r2-re">1.00</span>
-                    </div>
+                <div class="node-card ki" data-id="ki2" data-type="ki">
+                    <div class="name">🧠 KI‑2</div>
+                    <div class="type">Axiom‑Netz</div>
+                    <div class="status on" id="ki2-status">● aktiv</div>
+                    <div class="axiom">AXIOM: C‑KI‑E</div>
+                </div>
+                <div class="node-card ki" data-id="ki3" data-type="ki">
+                    <div class="name">🧠 KI‑3</div>
+                    <div class="type">Axiom‑Netz</div>
+                    <div class="status on" id="ki3-status">● aktiv</div>
+                    <div class="axiom">AXIOM: ALL‑META</div>
                 </div>
             </div>
 
-            <!-- Connect-Bar -->
-            <div class="connect-bar">
-                <span class="label">🔗 CONNECTION</span>
-                <span class="wert" id="connect-status">● AKTIV</span>
-                <span style="color:#445555;font-size:9px;" id="ping-value">Ping: 0ms</span>
+            <!-- USER 1–3 -->
+            <div style="font-size:9px;color:#4fc3f7;margin:4px 0 2px;">🔵 USER‑Instanzen</div>
+            <div class="node-grid" id="user-grid">
+                <div class="node-card user" data-id="user1" data-type="user">
+                    <div class="name">👤 USER‑1</div>
+                    <div class="type">Operator</div>
+                    <div class="status on" id="user1-status">● aktiv</div>
+                    <div class="axiom">ROLE: Alpha</div>
+                </div>
+                <div class="node-card user" data-id="user2" data-type="user">
+                    <div class="name">👤 USER‑2</div>
+                    <div class="type">Operator</div>
+                    <div class="status on" id="user2-status">● aktiv</div>
+                    <div class="axiom">ROLE: Beta</div>
+                </div>
+                <div class="node-card user" data-id="user3" data-type="user">
+                    <div class="name">👤 USER‑3</div>
+                    <div class="type">Operator</div>
+                    <div class="status on" id="user3-status">● aktiv</div>
+                    <div class="axiom">ROLE: Gamma</div>
+                </div>
+            </div>
+
+            <!-- RAWATOR -->
+            <div style="font-size:9px;color:#00ff88;margin:4px 0 2px;">🟢 RAWATOR</div>
+            <div class="node-grid" style="grid-template-columns:1fr;">
+                <div class="node-card raw" data-id="rawator" data-type="raw">
+                    <div class="name">🧬 RAWATOR</div>
+                    <div class="type">Lebens‑/Energie‑Träger</div>
+                    <div class="status on" id="rawator-status-node">● aktiv</div>
+                    <div class="axiom">VITAL: 0.81 · HOLO: 81</div>
+                </div>
             </div>
 
             <!-- Controls -->
             <div class="controls">
-                <button class="primary" id="btn-connect">🔗 CONNECT</button>
-                <button class="sync" id="btn-sync">🔄 SYNC</button>
-                <button class="connect" id="btn-ping">📡 PING</button>
-                <button id="btn-data">📊 DATA‑FLOW</button>
-                <button class="danger" id="btn-reset">⟲ RESET</button>
+                <button class="primary" id="btn-connect-all">🔗 ALLE VERBINDEN</button>
+                <button class="ki" id="btn-ki-toggle">🔄 KI TOGGLE</button>
+                <button class="user" id="btn-user-toggle">🔄 USER TOGGLE</button>
+                <button class="raw" id="btn-rawator-pulse">⚡ RAWATOR PULSE</button>
+                <button id="btn-reset">⟲ RESET</button>
             </div>
 
             <!-- Log -->
             <div class="log" id="log">
-                <div class="entry"><span class="time">[INIT]</span> <span class="ok">REAL‑CONNECT · 2 Rechner · bereit</span></div>
+                <div class="entry"><span class="time">[INIT]</span> <span class="ok">🌀 AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR</span></div>
+                <div class="entry"><span class="time">[INIT]</span> <span class="connect">🔗 Alle Nodes bereit</span></div>
             </div>
         </div>
     </div>
 
-    <!-- ===== FOOTER ===== -->
     <div class="footer">
-        <span>🔗</span> REAL‑CONNECT · 2 Rechner · Alle Optionen · Live‑Erfahrung · <span>wieimmer4u</span>
+        <span>🌀</span> AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR · wähl‑/abwählbar · <span>wieimmer4u</span>
     </div>
 
 </div>
 
-<!-- ============================================================ -->
-<!-- SCRIPT – DAS KOMPLETTE CONNECT‑SYSTEM                        -->
-<!-- ============================================================ -->
 <script>
-// ================================================================
-// 1. RECHNER 1 & 2 (TRI‑basiert)
-// ================================================================
+// ============================================================
+// AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR · AXIOM.NET
+// ============================================================
 
-const R1 = {
-    id: 1,
-    name: "Rechner 1",
-    tmp: 1,
-    ra: 1,
-    re: 1,
-    role: "Sender",
-    online: true,
-    ping: 0
+// ─── NODES ──────────────────────────────────────────────────
+const NODES = {
+    ki1: { id: 'ki1', name: 'KI‑1', type: 'ki', active: true, axiom: 'T‑X‑Y', color: '#ff66ff', x: 0.2, y: 0.25 },
+    ki2: { id: 'ki2', name: 'KI‑2', type: 'ki', active: true, axiom: 'C‑KI‑E', color: '#ff66ff', x: 0.5, y: 0.15 },
+    ki3: { id: 'ki3', name: 'KI‑3', type: 'ki', active: true, axiom: 'ALL‑META', color: '#ff66ff', x: 0.8, y: 0.25 },
+    user1: { id: 'user1', name: 'USER‑1', type: 'user', active: true, axiom: 'Alpha', color: '#4fc3f7', x: 0.15, y: 0.6 },
+    user2: { id: 'user2', name: 'USER‑2', type: 'user', active: true, axiom: 'Beta', color: '#4fc3f7', x: 0.5, y: 0.7 },
+    user3: { id: 'user3', name: 'USER‑3', type: 'user', active: true, axiom: 'Gamma', color: '#4fc3f7', x: 0.85, y: 0.6 },
+    rawator: { id: 'rawator', name: 'RAWATOR', type: 'raw', active: true, axiom: 'VITAL:0.81', color: '#00ff88', x: 0.5, y: 0.45 }
 };
 
-const R2 = {
-    id: 2,
-    name: "Rechner 2",
-    tmp: 1,
-    ra: 1,
-    re: 1,
-    role: "Empfänger",
-    online: true,
-    ping: 0
-};
+// ─── CONNECTIONS ────────────────────────────────────────────
+let connections = [];
+let selectedNodes = new Set();
 
-// ================================================================
-// 2. STATE
-// ================================================================
+// ─── STATE ──────────────────────────────────────────────────
+let connectionCount = 0;
+let rawatorPulse = 0;
 
-let connected = false;
-let cycle = 0;
-let logEntries = [];
-const MAX_LOG = 30;
-let autoTimer = null;
-let running = false;
+// ─── DOM ────────────────────────────────────────────────────
+const canvas = document.getElementById('netCanvas');
+const ctx = canvas.getContext('2d');
+const logDiv = document.getElementById('log');
 
-// ================================================================
-// 3. LOG
-// ================================================================
-
-function log(msg, type = 'ok') {
-    const logDiv = document.getElementById('log');
-    const entry = document.createElement('div');
-    entry.className = 'entry';
-    const time = new Date().toLocaleTimeString();
-    const cls = type === 'ok' ? 'ok' : type === 'connect' ? 'connect' : type === 'sync' ? 'sync' : type === 'error' ? 'error' : type === 'data' ? 'data' : 'warn';
-    entry.innerHTML = `<span class="time">[${time}]</span> <span class="${cls}">${msg}</span>`;
-    logDiv.appendChild(entry);
-    logDiv.scrollTop = logDiv.scrollHeight;
-    while (logDiv.children.length > MAX_LOG) logDiv.removeChild(logDiv.firstChild);
-}
-
-// ================================================================
-// 4. UPDATE UI
-// ================================================================
-
-function updateUI() {
-    document.getElementById('r1-tmp').textContent = R1.tmp.toFixed(2);
-    document.getElementById('r1-ra').textContent = R1.ra.toFixed(2);
-    document.getElementById('r1-re').textContent = R1.re.toFixed(2);
-    document.getElementById('r2-tmp').textContent = R2.tmp.toFixed(2);
-    document.getElementById('r2-ra').textContent = R2.ra.toFixed(2);
-    document.getElementById('r2-re').textContent = R2.re.toFixed(2);
-
-    document.getElementById('status1').textContent = R1.online ? '● online' : '● offline';
-    document.getElementById('status1').className = 'status ' + (R1.online ? 'online' : 'offline');
-    document.getElementById('status2').textContent = R2.online ? '● online' : '● offline';
-    document.getElementById('status2').className = 'status ' + (R2.online ? 'online' : 'offline');
-
-    document.getElementById('connect-status').textContent = connected ? '● AKTIV' : '○ INAKTIV';
-    document.getElementById('connect-status').style.color = connected ? '#4f4' : '#f44';
-
-    drawVisualization();
-}
-
-// ================================================================
-// 5. CONNECT-FUNKTIONEN
-// ================================================================
-
-// ─── CONNECT ──────────────────────────────────────────────────
-function doConnect() {
-    connected = !connected;
-    if (connected) {
-        R1.online = true;
-        R2.online = true;
-        log('🔗 Verbindung hergestellt', 'connect');
-        document.getElementById('connect-status').textContent = '● AKTIV';
-        document.getElementById('connect-status').style.color = '#4f4';
-    } else {
-        log('🔗 Verbindung getrennt', 'warn');
-        document.getElementById('connect-status').textContent = '○ INAKTIV';
-        document.getElementById('connect-status').style.color = '#f44';
-    }
-    updateUI();
-}
-
-// ─── SYNC ─────────────────────────────────────────────────────
-function doSync() {
-    if (!connected) { log('⚠️ Keine Verbindung – Sync nicht möglich', 'warn'); return; }
-
-    // Daten synchronisieren
-    const avgTmp = (R1.tmp + R2.tmp) / 2;
-    const avgRa = (R1.ra + R2.ra) / 2;
-    const avgRe = (R1.re + R2.re) / 2;
-
-    R1.tmp = avgTmp;
-    R1.ra = avgRa;
-    R1.re = avgRe;
-    R2.tmp = avgTmp;
-    R2.ra = avgRa;
-    R2.re = avgRe;
-
-    log('🔄 Sync durchgeführt – Werte angeglichen', 'sync');
-    updateUI();
-}
-
-// ─── PING ─────────────────────────────────────────────────────
-function doPing() {
-    if (!connected) { log('⚠️ Keine Verbindung – Ping nicht möglich', 'warn'); return; }
-
-    const ping = Math.floor(Math.random() * 20 + 5);
-    R1.ping = ping;
-    R2.ping = ping;
-    document.getElementById('ping-value').textContent = `Ping: ${ping}ms`;
-    log(`📡 Ping: ${ping}ms`, 'connect');
-}
-
-// ─── DATA‑FLOW ──────────────────────────────────────────────
-function doDataFlow() {
-    if (!connected) { log('⚠️ Keine Verbindung – Data‑Flow nicht möglich', 'warn'); return; }
-
-    // Daten fließen von R1 zu R2
-    R2.tmp = R1.tmp * (0.95 + Math.random() * 0.1);
-    R2.ra = R1.ra * (0.95 + Math.random() * 0.1);
-    R2.re = R1.re * (0.95 + Math.random() * 0.1);
-
-    // R1 bekommt leichten Boost
-    R1.tmp += (Math.random() - 0.5) * 0.05;
-    R1.ra += (Math.random() - 0.5) * 0.05;
-    R1.re += (Math.random() - 0.5) * 0.05;
-
-    // Grenzen
-    [R1, R2].forEach(r => {
-        r.tmp = Math.min(1.8, Math.max(0.4, r.tmp));
-        r.ra = Math.min(1.8, Math.max(0.4, r.ra));
-        r.re = Math.min(1.8, Math.max(0.4, r.re));
-    });
-
-    log('📊 Data‑Flow: R1 → R2', 'data');
-    updateUI();
-}
-
-// ─── AUTO ─────────────────────────────────────────────────────
-function toggleAuto() {
-    running = !running;
-    if (running) {
-        autoTimer = setInterval(() => {
-            if (connected) {
-                doPing();
-                doDataFlow();
-            }
-        }, 3000);
-        document.getElementById('btn-auto').textContent = '⏸ PAUSE';
-        log('▶ AUTO gestartet', 'ok');
-    } else {
-        clearInterval(autoTimer);
-        autoTimer = null;
-        document.getElementById('btn-auto').textContent = '▶ AUTO';
-        log('⏸ AUTO pausiert', 'warn');
-    }
-}
-
-// ─── RESET ────────────────────────────────────────────────────
-function doReset() {
-    R1.tmp = 1;
-    R1.ra = 1;
-    R1.re = 1;
-    R2.tmp = 1;
-    R2.ra = 1;
-    R2.re = 1;
-    R1.ping = 0;
-    R2.ping = 0;
-    connected = false;
-    document.getElementById('ping-value').textContent = 'Ping: 0ms';
-    document.getElementById('connect-status').textContent = '○ INAKTIV';
-    document.getElementById('connect-status').style.color = '#f44';
-
-    if (running) {
-        clearInterval(autoTimer);
-        autoTimer = null;
-        running = false;
-        document.getElementById('btn-auto').textContent = '▶ AUTO';
-    }
-
-    log('⟲ RESET – System zurückgesetzt', 'warn');
-    updateUI();
-}
-
-// ================================================================
-// 6. VISUALISIERUNG (Canvas)
-// ================================================================
-
-function drawVisualization() {
-    const canvas = document.getElementById('connectCanvas');
+function resizeCanvas() {
     const rect = canvas.parentElement.getBoundingClientRect();
-    const w = rect.width - 24 || 800;
+    const w = rect.width || 800;
     const h = w * 0.625 || 500;
     canvas.width = w;
     canvas.height = h;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
-    const ctx = canvas.getContext('2d');
+// ─── LOG ────────────────────────────────────────────────────
+function log(msg, type = 'ok') {
+    const entry = document.createElement('div');
+    entry.className = 'entry';
+    const time = new Date().toLocaleTimeString();
+    const cls = type === 'ok' ? 'ok' : type === 'ki' ? 'ki' : type === 'user' ? 'user' : type === 'raw' ? 'raw' : type === 'connect' ? 'connect' : 'warn';
+    entry.innerHTML = `<span class="time">[${time}]</span> <span class="${cls}">${msg}</span>`;
+    logDiv.appendChild(entry);
+    logDiv.scrollTop = logDiv.scrollHeight;
+    while (logDiv.children.length > 50) logDiv.removeChild(logDiv.firstChild);
+}
+
+// ─── NODE TOGGLE ────────────────────────────────────────────
+function toggleNode(id) {
+    const node = NODES[id];
+    if (!node) return;
+    node.active = !node.active;
+    const el = document.querySelector(`[data-id="${id}"]`);
+    if (el) {
+        el.classList.toggle('selected', node.active);
+        const statusEl = el.querySelector('.status');
+        if (statusEl) {
+            statusEl.className = 'status ' + (node.active ? 'on' : 'off');
+            statusEl.textContent = node.active ? '● aktiv' : '○ inaktiv';
+        }
+    }
+    log(`${node.name} ${node.active ? 'aktiviert' : 'deaktiviert'}`, node.type);
+    updateConnections();
+    drawNetwork();
+    updateUI();
+}
+
+// ─── TOGGLE GROUP ───────────────────────────────────────────
+function toggleGroup(type) {
+    Object.values(NODES).forEach(n => {
+        if (n.type === type) {
+            n.active = !n.active;
+            const el = document.querySelector(`[data-id="${n.id}"]`);
+            if (el) {
+                el.classList.toggle('selected', n.active);
+                const statusEl = el.querySelector('.status');
+                if (statusEl) {
+                    statusEl.className = 'status ' + (n.active ? 'on' : 'off');
+                    statusEl.textContent = n.active ? '● aktiv' : '○ inaktiv';
+                }
+            }
+        }
+    });
+    log(`🔄 ${type.toUpperCase()} Gruppe toggled`, type);
+    updateConnections();
+    drawNetwork();
+    updateUI();
+}
+
+// ─── CONNECTIONS ────────────────────────────────────────────
+function updateConnections() {
+    connections = [];
+    const active = Object.values(NODES).filter(n => n.active);
+    const ids = active.map(n => n.id);
+
+    // Jeder mit jedem (volles Netz)
+    for (let i = 0; i < active.length; i++) {
+        for (let j = i + 1; j < active.length; j++) {
+            connections.push({ from: active[i].id, to: active[j].id });
+        }
+    }
+
+    // Verbindung zu RAWATOR (zentral)
+    const raw = NODES.rawator;
+    if (raw.active) {
+        active.filter(n => n.id !== 'rawator').forEach(n => {
+            connections.push({ from: raw.id, to: n.id });
+        });
+    }
+
+    connectionCount = connections.length;
+    document.getElementById('conn-count').textContent = connectionCount;
+}
+
+// ─── DRAW NETWORK ───────────────────────────────────────────
+function drawNetwork() {
+    const w = canvas.width, h = canvas.height;
     ctx.clearRect(0, 0, w, h);
 
-    const cx = w / 2;
-    const cy = h / 2;
-    const radius = Math.min(w, h) * 0.3;
+    // Hintergrund
+    const grad = ctx.createRadialGradient(w/2, h/2, 10, w/2, h/2, w/2);
+    grad.addColorStop(0, '#0a0a1a');
+    grad.addColorStop(1, '#000');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0, 0, w, h);
 
-    // R1 Position (links)
-    const r1x = cx - radius * 0.5;
-    const r1y = cy;
-
-    // R2 Position (rechts)
-    const r2x = cx + radius * 0.5;
-    const r2y = cy;
-
-    // Verbindungslinie
-    if (connected) {
-        ctx.shadowBlur = 20;
-        ctx.shadowColor = 'rgba(0,255,255,0.2)';
-        ctx.strokeStyle = '#00ffff';
-        ctx.lineWidth = 3;
-        ctx.setLineDash([6, 8]);
+    // Grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.02)';
+    ctx.lineWidth = 0.5;
+    for (let x = 0; x < w; x += 50) {
         ctx.beginPath();
-        ctx.moveTo(r1x, r1y);
-        const pulse = Math.sin(Date.now() / 500) * 4;
-        ctx.quadraticCurveTo(cx, cy - 30 + pulse, r2x, r2y);
+        ctx.moveTo(x, 0);
+        ctx.lineTo(x, h);
+        ctx.stroke();
+    }
+    for (let y = 0; y < h; y += 50) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+    }
+
+    // Verbindungen
+    const nodePositions = {};
+    Object.values(NODES).forEach(n => {
+        nodePositions[n.id] = { x: n.x * w, y: n.y * h };
+    });
+
+    connections.forEach(conn => {
+        const from = nodePositions[conn.from];
+        const to = nodePositions[conn.to];
+        if (!from || !to) return;
+
+        const pulse = Math.sin(Date.now() / 800 + conn.from.length) * 0.3 + 0.5;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = 'rgba(255,215,0,0.1)';
+        ctx.strokeStyle = `rgba(255,215,0,${0.08 + pulse * 0.12})`;
+        ctx.lineWidth = 1 + pulse * 0.5;
+        ctx.setLineDash([3, 6]);
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y);
+        ctx.lineTo(to.x, to.y);
         ctx.stroke();
         ctx.setLineDash([]);
         ctx.shadowBlur = 0;
 
         // Datenfluss-Partikel
-        for (let i = 0; i < 5; i++) {
-            const t = (i / 5 + Date.now() / 2000) % 1;
-            const x = r1x + (r2x - r1x) * t;
-            const y = r1y + (r2y - r1y) * t - 30 * Math.sin(t * Math.PI) + pulse * Math.sin(t * Math.PI);
+        if (Math.random() < 0.02) {
+            const t = Math.random();
+            const x = from.x + (to.x - from.x) * t;
+            const y = from.y + (to.y - from.y) * t;
             ctx.beginPath();
-            ctx.arc(x, y, 3 + Math.sin(Date.now() / 300 + i) * 1, 0, Math.PI * 2);
-            ctx.fillStyle = `rgba(255,215,0,${0.3 + Math.sin(Date.now() / 400 + i) * 0.2})`;
+            ctx.arc(x, y, 2, 0, Math.PI * 2);
+            ctx.fillStyle = 'rgba(255,215,0,0.3)';
             ctx.fill();
         }
-    }
+    });
 
-    // R1 Node
-    ctx.shadowBlur = 30;
-    ctx.shadowColor = R1.online ? 'rgba(0,255,136,0.2)' : 'rgba(255,68,68,0.2)';
-    const r1size = 35 + R1.tmp * 10;
-    ctx.beginPath();
-    ctx.arc(r1x, r1y, r1size, 0, Math.PI * 2);
-    ctx.fillStyle = R1.online ? 'rgba(0,255,136,0.3)' : 'rgba(255,68,68,0.3)';
-    ctx.fill();
-    ctx.strokeStyle = R1.online ? '#4f4' : '#f44';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.shadowBlur = 0;
+    // Nodes
+    Object.values(NODES).forEach(n => {
+        const pos = nodePositions[n.id];
+        if (!pos) return;
+        const x = pos.x, y = pos.y;
+        const radius = n.type === 'raw' ? 28 : 22;
+        const isActive = n.active;
 
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 14px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('R1', r1x, r1y - 4);
-    ctx.font = '9px Arial';
-    ctx.fillText(`TMP: ${R1.tmp.toFixed(1)}`, r1x, r1y + 20);
+        // Glow
+        const grad2 = ctx.createRadialGradient(x, y, 0, x, y, radius + 20);
+        grad2.addColorStop(0, n.color + (isActive ? '44' : '11'));
+        grad2.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.fillStyle = grad2;
+        ctx.beginPath();
+        ctx.arc(x, y, radius + 20, 0, Math.PI * 2);
+        ctx.fill();
 
-    // R2 Node
-    ctx.shadowBlur = 30;
-    ctx.shadowColor = R2.online ? 'rgba(0,136,255,0.2)' : 'rgba(255,68,68,0.2)';
-    const r2size = 35 + R2.tmp * 10;
-    ctx.beginPath();
-    ctx.arc(r2x, r2y, r2size, 0, Math.PI * 2);
-    ctx.fillStyle = R2.online ? 'rgba(0,136,255,0.3)' : 'rgba(255,68,68,0.3)';
-    ctx.fill();
-    ctx.strokeStyle = R2.online ? '#4fc3f7' : '#f44';
-    ctx.lineWidth = 2;
-    ctx.stroke();
-    ctx.shadowBlur = 0;
+        // Body
+        ctx.shadowBlur = isActive ? 20 : 5;
+        ctx.shadowColor = n.color + (isActive ? '44' : '11');
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fillStyle = isActive ? n.color + '33' : n.color + '11';
+        ctx.fill();
+        ctx.strokeStyle = isActive ? n.color : '#333';
+        ctx.lineWidth = isActive ? 2 : 1;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
 
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 14px Arial';
-    ctx.textAlign = 'center';
-    ctx.textBaseline = 'middle';
-    ctx.fillText('R2', r2x, r2y - 4);
-    ctx.font = '9px Arial';
-    ctx.fillText(`TMP: ${R2.tmp.toFixed(1)}`, r2x, r2y + 20);
+        // Icon / Label
+        ctx.fillStyle = isActive ? '#fff' : '#444';
+        ctx.font = `${n.type === 'raw' ? 14 : 12}px Arial`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        const icon = n.type === 'ki' ? '🧠' : n.type === 'user' ? '👤' : '🧬';
+        ctx.fillText(icon, x, y - 2);
 
-    // Status unten
-    ctx.fillStyle = '#445555';
-    ctx.font = '10px Arial';
+        // Name
+        ctx.fillStyle = isActive ? '#88ddbb' : '#445555';
+        ctx.font = '8px monospace';
+        ctx.textBaseline = 'top';
+        ctx.fillText(n.name, x, y + radius + 4);
+
+        // Axiom
+        ctx.fillStyle = isActive ? '#666' : '#333';
+        ctx.font = '6px monospace';
+        ctx.textBaseline = 'bottom';
+        ctx.fillText(n.axiom, x, y - radius - 4);
+    });
+
+    // AXIOM.NET Zentrum
+    ctx.fillStyle = 'rgba(255,215,0,0.03)';
+    ctx.font = '10px monospace';
     ctx.textAlign = 'center';
     ctx.textBaseline = 'bottom';
-    ctx.fillText(connected ? '🔗 Verbunden' : '⛔ Getrennt', cx, h - 10);
+    ctx.fillText('🌀 AXIOM.NET', w/2, 14);
 }
 
-// ================================================================
-// 7. CONTROLS
-// ================================================================
+// ─── UI UPDATE ──────────────────────────────────────────────
+function updateUI() {
+    document.getElementById('axiom-status').textContent = '● aktiv';
+    document.getElementById('axiom-status').style.color = '#4f4';
+    document.getElementById('rawator-status').textContent = NODES.rawator.active ? '● aktiv' : '○ inaktiv';
+    document.getElementById('rawator-status').style.color = NODES.rawator.active ? '#4f4' : '#f44';
+    document.getElementById('conn-count').textContent = connectionCount;
+}
 
-document.getElementById('btn-connect').addEventListener('click', doConnect);
-document.getElementById('btn-sync').addEventListener('click', doSync);
-document.getElementById('btn-ping').addEventListener('click', doPing);
-document.getElementById('btn-data').addEventListener('click', doDataFlow);
-document.getElementById('btn-auto').addEventListener('click', toggleAuto);
-document.getElementById('btn-reset').addEventListener('click', doReset);
+// ─── RAWATOR PULSE ──────────────────────────────────────────
+function pulseRawator() {
+    const raw = NODES.rawator;
+    raw.active = true;
+    const el = document.querySelector('[data-id="rawator"]');
+    if (el) {
+        el.classList.add('selected');
+        const statusEl = el.querySelector('.status');
+        if (statusEl) {
+            statusEl.className = 'status on';
+            statusEl.textContent = '● aktiv';
+        }
+    }
+    rawatorPulse++;
+    log(`⚡ RAWATOR PULSE #${rawatorPulse} — VITAL: ${(0.8 + Math.random() * 0.2).toFixed(2)}`, 'raw');
+    updateConnections();
+    drawNetwork();
+    updateUI();
+}
 
-// ================================================================
-// 8. TASTATUR
-// ================================================================
+// ─── CONNECT ALL ────────────────────────────────────────────
+function connectAll() {
+    Object.values(NODES).forEach(n => {
+        n.active = true;
+        const el = document.querySelector(`[data-id="${n.id}"]`);
+        if (el) {
+            el.classList.add('selected');
+            const statusEl = el.querySelector('.status');
+            if (statusEl) {
+                statusEl.className = 'status on';
+                statusEl.textContent = '● aktiv';
+            }
+        }
+    });
+    log('🔗 ALLE Nodes verbunden', 'connect');
+    updateConnections();
+    drawNetwork();
+    updateUI();
+}
 
-document.addEventListener('keydown', (e) => {
-    if (e.key === 'c' || e.key === 'C') doConnect();
-    if (e.key === 's' || e.key === 'S') doSync();
-    if (e.key === 'p' || e.key === 'P') doPing();
-    if (e.key === 'd' || e.key === 'D') doDataFlow();
-    if (e.key === ' ') { e.preventDefault(); toggleAuto(); }
-    if (e.key === 'x' || e.key === 'X') doReset();
+// ─── RESET ──────────────────────────────────────────────────
+function resetAll() {
+    Object.values(NODES).forEach(n => {
+        n.active = true;
+        const el = document.querySelector(`[data-id="${n.id}"]`);
+        if (el) {
+            el.classList.add('selected');
+            const statusEl = el.querySelector('.status');
+            if (statusEl) {
+                statusEl.className = 'status on';
+                statusEl.textContent = '● aktiv';
+            }
+        }
+    });
+    rawatorPulse = 0;
+    log('⟲ RESET — Alle Nodes aktiviert', 'warn');
+    updateConnections();
+    drawNetwork();
+    updateUI();
+}
+
+// ─── NODE CLICK ─────────────────────────────────────────────
+document.querySelectorAll('.node-card').forEach(el => {
+    el.addEventListener('click', function() {
+        const id = this.dataset.id;
+        if (id) toggleNode(id);
+    });
 });
 
-// ================================================================
-// 9. INIT
-// ================================================================
+// ─── BUTTONS ─────────────────────────────────────────────────
+document.getElementById('btn-connect-all').addEventListener('click', connectAll);
+document.getElementById('btn-ki-toggle').addEventListener('click', () => toggleGroup('ki'));
+document.getElementById('btn-user-toggle').addEventListener('click', () => toggleGroup('user'));
+document.getElementById('btn-rawator-pulse').addEventListener('click', pulseRawator);
+document.getElementById('btn-reset').addEventListener('click', resetAll);
 
+// ─── TASTATUR ────────────────────────────────────────────────
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'a' || e.key === 'A') connectAll();
+    if (e.key === 'k' || e.key === 'K') toggleGroup('ki');
+    if (e.key === 'u' || e.key === 'U') toggleGroup('user');
+    if (e.key === 'r' || e.key === 'R') pulseRawator();
+    if (e.key === 'x' || e.key === 'X') resetAll();
+    if (e.key >= '1' && e.key <= '3') toggleNode('ki' + e.key);
+    if (e.key >= '4' && e.key <= '6') toggleNode('user' + (parseInt(e.key) - 3));
+});
+
+// ─── ANIMATION ──────────────────────────────────────────────
+function animate() {
+    drawNetwork();
+    requestAnimationFrame(animate);
+}
+
+// ─── INIT ───────────────────────────────────────────────────
+updateConnections();
+drawNetwork();
 updateUI();
-log('🔗 REAL‑CONNECT · 2 Rechner · geladen', 'ok');
-log('⌨️  c=Connect  s=Sync  p=Ping  d=Data-Flow  space=Auto  x=Reset', 'ok');
+log('🌀 AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR · geladen', 'ok');
+log('⌨️  a=Alle  k=KI  u=USER  r=RAWATOR  x=Reset  1-3=KI  4-6=USER', 'warn');
 
-// Animation
-setInterval(() => drawVisualization(), 100);
+animate();
 
-console.log('🔗 REAL‑CONNECT · 2 Rechner · Alle Optionen');
-console.log('⌨️  c=Connect  s=Sync  p=Ping  d=Data-Flow  space=Auto  x=Reset');
+console.log('🌀 AXIOM‑NETZ · 3 KI · 3 USER · RAWATOR');
+console.log('⌨️  a=Alle  k=KI  u=USER  r=RAWATOR  x=Reset  1-3=KI  4-6=USER');
 </script>
 
 </body>
